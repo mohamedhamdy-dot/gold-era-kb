@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gold Era Egypt — Knowledge Base</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#9A7830;
+  --bg:#0A0A0A;--bg2:#111;--bg3:#1A1A1A;--surf:#1E1E1E;
+  --brd:#2A2A2A;--txt:#F0EDE8;--muted:#9A9590;--dim:#555;
+  --green:#4CAF7A;--red:#CF6679;--blue:#5B8FC9;--sw:270px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden}
+#app{display:flex;height:100vh}
+#sidebar{width:var(--sw);flex-shrink:0;background:var(--bg2);border-left:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden;transition:transform .25s;z-index:10}
+#main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
+#hero-bg{position:absolute;inset:0;background-repeat:no-repeat;background-position:center 38%;background-size:40%;opacity:.03;pointer-events:none;z-index:0;filter:grayscale(1) brightness(3)}
+#content{position:relative;z-index:1;flex:1;overflow-y:auto;padding:22px}
+.logo-wrap{padding:14px;display:flex;align-items:center;gap:11px;background:linear-gradient(150deg,#0e0b00,#111);border-bottom:1px solid var(--brd)}
+/* ── CSS LOGO (no image needed) ── */
+.ge-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.ge-icon{
+  width:40px;height:40px;flex-shrink:0;position:relative;
+  background:linear-gradient(135deg,#1a1200,#2a1e00);
+  border:1.5px solid var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.ge-icon::before{
+  content:'';position:absolute;inset:3px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.35);
+}
+.ge-icon-inner{
+  font-size:16px;font-weight:900;font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#E8C96A,#9A7830);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1;letter-spacing:-1px;
+}
+.ge-text-wrap{display:flex;flex-direction:column;line-height:1.15}
+.ge-brand{font-size:15px;font-weight:900;letter-spacing:1.5px;font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#E8C96A 0%,#C9A84C 50%,#9A7830 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-transform:uppercase;
+}
+.ge-sub{font-size:8.5px;font-weight:400;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}
+
+/* Topbar logo - smaller */
+.tb-ge-logo{display:flex;align-items:center;gap:8px}
+.tb-ge-icon{
+  width:30px;height:30px;flex-shrink:0;
+  background:linear-gradient(135deg,#1a1200,#2a1e00);
+  border:1.5px solid var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;font-family:'Cairo',sans-serif;
+}
+.tb-ge-icon span{
+  background:linear-gradient(135deg,#E8C96A,#9A7830);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:-0.5px;
+}
+.tb-ge-text{font-size:13px;font-weight:900;letter-spacing:1.2px;font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#E8C96A,#C9A84C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-transform:uppercase;
+}
+.logo-txt{font-size:14px;font-weight:900;color:var(--gold);line-height:1.2}
+.logo-txt small{display:block;font-size:9px;font-weight:400;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
+.srch{padding:10px 10px 2px;border-bottom:1px solid var(--brd)}
+.srch-wrap{position:relative}
+.srch-wrap input{width:100%;padding:8px 11px 8px 32px;background:var(--bg3);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-family:'Cairo',sans-serif;font-size:12.5px;outline:none}
+.srch-wrap input:focus{border-color:var(--gold)}
+.si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:13px;pointer-events:none}
+.sb-nav{flex:1;overflow-y:auto;padding:6px}
+.ng-lbl{font-size:9px;font-weight:700;letter-spacing:1.8px;color:var(--dim);padding:10px 8px 4px;text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted);transition:all .15s;user-select:none}
+.ni:hover{background:var(--bg3);color:var(--txt)}
+.ni.active{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#0A0A0A;font-weight:700}
+.ni .ic{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+#topbar{height:52px;background:rgba(10,10,10,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:10px;padding:0 16px;flex-shrink:0;z-index:2;position:relative}
+/* tb-logo removed */
+.pg-title{font-size:12.5px;font-weight:700;color:var(--muted);flex:1}
+.btn{padding:6px 13px;border-radius:7px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.btn-g{background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#0A0A0A}
+.btn-g:hover{filter:brightness(1.1)}
+.btn-o{background:transparent;border:1px solid var(--brd);color:var(--muted)}
+.btn-o:hover{background:var(--bg3);color:var(--txt)}
+.btn-red{background:rgba(207,102,121,.15);border:1px solid rgba(207,102,121,.3);color:var(--red)}
+.btn-red:hover{background:rgba(207,102,121,.25)}
+.btn-blue{background:rgba(91,143,201,.15);border:1px solid rgba(91,143,201,.3);color:var(--blue)}
+.btn-blue:hover{background:rgba(91,143,201,.25)}
+#mtoggle{display:none;background:transparent;border:none;cursor:pointer;color:var(--txt);font-size:20px;padding:4px}
+.sp{display:none}.sp.active{display:block}
+.sh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:10px}
+.sh h2{font-size:19px;font-weight:900}.sh p{font-size:12px;color:var(--dim);margin-top:3px}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:13px;margin-bottom:18px}
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:17px;position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s}
+.card:hover{border-color:var(--gold-d);transform:translateY(-1px)}
+.card::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold-d),var(--gold))}
+.card-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);margin-bottom:6px}
+.card-ttl{font-size:14px;font-weight:700;margin-bottom:5px;line-height:1.4}
+.card-bdy{font-size:12px;color:var(--muted);line-height:1.7}
+
+/* Editable item row */
+.item-row{background:var(--surf);border:1px solid var(--brd);border-radius:10px;margin-bottom:9px;overflow:hidden}
+.item-header{padding:12px 14px;display:flex;align-items:flex-start;gap:9px}
+.item-header .ih-main{flex:1;cursor:pointer}
+.item-header .ih-title{font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.item-header .ih-body{font-size:12px;color:var(--muted);line-height:1.7;display:none}
+.item-row.open .ih-body{display:block}
+.item-header .ih-arrow{color:var(--dim);font-size:11px;margin-top:3px;transition:transform .2s;flex-shrink:0;cursor:pointer}
+.item-row.open .ih-arrow{transform:rotate(180deg)}
+.item-actions{display:none;gap:5px;flex-shrink:0}
+.edit-mode .item-actions{display:flex}
+.item-note{background:var(--bg3);border-radius:6px;padding:7px 10px;margin-top:7px;font-size:11.5px;color:var(--dim);border-right:2px solid var(--gold)}
+
+/* Process step */
+.ps{display:flex;gap:11px;margin-bottom:11px;background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px;align-items:flex-start}
+.sn{width:26px;height:26px;min-width:26px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:#0A0A0A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+.ps-body{flex:1;font-size:12.5px;line-height:1.75}
+.ps-body strong{color:var(--txt);display:block;margin-bottom:2px;font-size:13px}
+.ps-actions{display:none;gap:5px;flex-shrink:0}
+.edit-mode .ps-actions{display:flex}
+
+/* Branch */
+.bc{background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:15px;margin-bottom:11px;position:relative}
+.bc-actions{position:absolute;top:12px;left:12px;display:none;gap:5px}
+.edit-mode .bc-actions{display:flex}
+.bn{font-size:14px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:7px}
+.ba{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7}
+.bh{font-size:11.5px;background:var(--bg3);padding:8px 10px;border-radius:7px;line-height:1.85}
+.bh strong{color:var(--gold)}
+.ml{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--gold);background:var(--bg3);padding:4px 10px;border-radius:6px}
+
+/* Wholesale */
+.dt{width:100%;border-collapse:collapse;font-size:12px}
+.dt th{background:var(--bg3);padding:7px 10px;text-align:right;font-weight:700;font-size:10px;color:var(--dim);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:1}
+.dt td{padding:8px 10px;border-bottom:1px solid var(--brd);vertical-align:top;line-height:1.5}
+.dt tr:hover td{background:var(--bg3)}
+.gb{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;background:var(--bg3);color:var(--dim)}
+
+/* Quality */
+.qs{background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:13px}
+.qs h3{font-size:13px;font-weight:700;margin-bottom:11px;color:var(--gold)}
+.qgr{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.qb{background:var(--bg3);border-radius:8px;padding:10px;position:relative}
+.qb h4{font-size:10.5px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.qb p{font-size:11.5px;line-height:1.7}
+.crb{display:inline-flex;align-items:center;gap:4px;background:rgba(207,102,121,.12);color:var(--red);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;border:1px solid rgba(207,102,121,.2)}
+
+/* Pricing */
+.pr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid var(--brd);font-size:12px}
+.pr:last-child{border-bottom:none}
+.pr .wt{font-weight:600}.pr .am{color:var(--gold);font-weight:700}
+.price-editable{display:flex;align-items:center;gap:6px}
+.price-edit-btn{display:none}
+.edit-mode .price-edit-btn{display:inline-flex}
+
+/* Banking */
+.bb{background:var(--bg3);border-radius:10px;padding:14px;font-size:12.5px;line-height:2;margin-bottom:10px;border:1px solid var(--brd);position:relative}
+.bb .bbn{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px}
+.bb code{background:var(--surf);padding:1px 6px;border-radius:4px;font-size:11.5px;color:var(--txt);font-family:monospace}
+.bb-edit-btn{position:absolute;top:10px;left:10px;display:none}
+.edit-mode .bb-edit-btn{display:inline-flex}
+
+/* Modals */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;align-items:center;justify-content:center}
+.modal-ov.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:20px;width:92%;max-width:580px;max-height:88vh;overflow-y:auto}
+.modal h2{font-size:16px;font-weight:700;margin-bottom:14px;color:var(--gold)}
+.fr{margin-bottom:12px}
+.fr label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.fr input,.fr textarea,.fr select{width:100%;background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:9px 10px;color:var(--txt);font-family:'Cairo',sans-serif;font-size:12.5px;outline:none}
+.fr input:focus,.fr textarea:focus,.fr select:focus{border-color:var(--gold)}
+.fr textarea{min-height:85px;resize:vertical}
+.fac{display:flex;gap:7px;justify-content:flex-end;margin-top:13px}
+.sm{padding:8px 12px;border-radius:7px;font-size:12px;margin-top:9px;display:none}
+.sm-ok{background:rgba(76,175,122,.12);color:var(--green);border:1px solid rgba(76,175,122,.2)}
+.sm-er{background:rgba(207,102,121,.12);color:var(--red);border:1px solid rgba(207,102,121,.2)}
+.rb{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+.r-adm{background:rgba(201,168,76,.15);color:var(--gold)}
+.r-edt{background:rgba(91,143,201,.15);color:var(--blue)}
+.r-vwr{background:rgba(76,175,122,.15);color:var(--green)}
+.hl2{background:rgba(201,168,76,.2);color:var(--gold);border-radius:2px;padding:0 2px}
+.slb{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--bg3);border-radius:8px;margin-bottom:7px}
+.slb .ln{flex:1;font-size:13px;font-weight:600}
+.slu{background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:9px 12px;font-size:11.5px;font-family:monospace;color:var(--muted);word-break:break-all;margin-bottom:10px}
+
+/* Edit mode toggle */
+.edit-toggle{display:none}
+.edit-toggle.show{display:flex}
+#edit-mode-bar{
+  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.05));
+  border:1px solid rgba(201,168,76,.2);border-radius:10px;
+  padding:10px 14px;margin-bottom:16px;
+  display:none;align-items:center;gap:10px;font-size:12.5px;
+}
+#edit-mode-bar.show{display:flex}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#0f0c00,#181200,#0a0a0a);border:1px solid rgba(201,168,76,.15);border-radius:16px;padding:26px 22px;margin-bottom:18px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden}
+.hero-logo-wrap{width:90px;height:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.hero-txt h1{font-size:22px;font-weight:900;color:var(--gold);line-height:1.2}
+.hero-txt p{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.7}
+.hstats{display:flex;gap:18px;margin-top:13px;flex-wrap:wrap}
+.hs .hn{font-size:22px;font-weight:900;color:var(--gold)}.hs .hl3{font-size:9.5px;color:var(--dim);letter-spacing:.5px}
+
+/* Notice */
+.notice{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--muted);display:none;align-items:center;gap:8px}
+.notice.show{display:flex}
+
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+@media(max-width:768px){
+  #sidebar{position:fixed;right:0;top:0;bottom:0;transform:translateX(100%)}
+  #sidebar.open{transform:translateX(0);box-shadow:-6px 0 24px rgba(0,0,0,.5)}
+  #mtoggle{display:flex}.qgr{grid-template-columns:1fr}.cg{grid-template-columns:1fr}
+}
+#sbo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9}
+#sbo.open{display:block}
+.new-badge{background:rgba(201,168,76,.15);color:var(--gold);font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;border:1px solid rgba(201,168,76,.2)}
+</style>
+</head>
+<body>
+<div id="sbo" onclick="cSB()"></div>
+<div id="app">
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="logo-wrap" style="padding:14px 14px 12px;background:linear-gradient(150deg,#0e0b00,#111);border-bottom:1px solid var(--brd)">
+    <div class="ge-logo">
+      <img class="ge-icon-img" alt="Gold Era">
+      <div class="ge-text-wrap">
+        <div class="ge-brand">Gold Era</div>
+        <div class="ge-sub">Knowledge Base · Egypt</div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+  <div class="srch">
+    <div class="srch-wrap">
+      <span class="si">🔍</span>
+      <input type="text" id="gs" placeholder="ابحث في كل شيء..." oninput="doS(this.value)">
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="ng-lbl">الرئيسية</div>
+    <div class="ni active" onclick="go('ov')"><span class="ic">🏠</span> نظرة عامة</div>
+    <div class="ng-lbl">محتوى KB</div>
+    <div class="ni" onclick="go('ql')"><span class="ic">✅</span> معايير الجودة</div>
+    <div class="ni" onclick="go('pr')"><span class="ic">⚙️</span> البروسيسات</div>
+    <div class="ni" onclick="go('br')"><span class="ic">📍</span> الفروع</div>
+    <div class="ni" onclick="go('wh')"><span class="ic">🏪</span> الموزعين</div>
+    <div class="ni" onclick="go('in')"><span class="ic">💡</span> معلومات المنتج</div>
+    <div class="ni" onclick="go('px')"><span class="ic">💰</span> الأسعار</div>
+    <div class="ni" onclick="go('bk')"><span class="ic">🏦</span> البيانات البنكية</div>
+    <div class="ni" onclick="go('cm')"><span class="ic">💬</span> ردود الكومنتات</div>
+    <div class="ng-lbl">الإدارة</div>
+    <div class="ni" onclick="go('mg')"><span class="ic">✏️</span> تعديل المحتوى</div>
+    <div class="ni" onclick="go('ac')"><span class="ic">👥</span> إدارة الوصول</div>
+    <div class="ng-lbl" id="su-lbl" style="color:var(--gold);font-size:10px"></div>
+  </nav>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="hero-bg"></div>
+  <div id="topbar">
+    <button id="mtoggle" onclick="tSB()">☰</button>
+    <div class="tb-ge-logo">
+      <img class="tb-ge-icon-img" alt="GE">
+      <div class="tb-ge-text">Gold Era</div>
+    </div>
+    </div>
+    <div class="pg-title" id="pgT">نظرة عامة</div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <!-- Edit mode toggle - only for editors/admins -->
+      <button class="btn btn-blue edit-toggle" id="edit-toggle-btn" onclick="toggleEditMode()">✏️ وضع التعديل</button>
+      <button class="btn btn-g" id="btn-add" style="display:none" onclick="oAdd()">+ إضافة</button>
+      <button class="btn btn-o" onclick="oShare()">🔗 مشاركة</button>
+    </div>
+  </div>
+  <div id="content">
+
+    <!-- OVERVIEW -->
+    <div class="sp active" id="p-ov">
+      <div id="guest-notice" class="notice"><span>👁️</span><span>أنت تشاهد الـ KB — يمكنك تصفح جميع المحتوى بحرية بدون تسجيل</span></div>
+      <div id="edit-mode-bar"><span>✏️</span><span style="flex:1;font-weight:700;color:var(--gold)">وضع التعديل مفعّل</span><span style="font-size:11px;color:var(--dim)">ستظهر أزرار التعديل والحذف على كل عنصر</span></div>
+      <div class="hero">
+        <div class="hero-logo-wrap" style="width:90px;height:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <img class="hero-icon-img" alt="Gold Era" style="width:90px;height:90px;object-fit:cover;border-radius:12px">
+        </div>
+        <div class="hero-txt">
+          <h1>Gold Era Egypt</h1>
+          <p>مرجع خدمة العملاء الداخلي الشامل<br>جميع المعلومات والإجراءات في مكان واحد</p>
+          <div class="hstats">
+            <div class="hs"><div class="hn" id="stat-br">9</div><div class="hl3">فروع</div></div>
+            <div class="hs"><div class="hn" id="stat-wh">25</div><div class="hl3">موزع</div></div>
+            <div class="hs"><div class="hn">16728</div><div class="hl3">خط ساخن</div></div>
+            <div class="hs"><div class="hn">24/7</div><div class="hl3">دعم</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="cg">
+        <div class="card" onclick="go('ql')"><div class="card-lbl">QUALITY</div><div class="card-ttl">✅ معايير الجودة</div><div class="card-bdy">كول سنتر وسوشيال ميديا — Critical وNon-Critical</div></div>
+        <div class="card" onclick="go('pr')"><div class="card-lbl">PROCESS</div><div class="card-ttl">⚙️ البروسيسات</div><div class="card-bdy">خطوات التعامل مع الطلبات ومواعيد الرد</div></div>
+        <div class="card" onclick="go('br')"><div class="card-lbl">BRANCHES</div><div class="card-ttl">📍 الفروع والمواعيد</div><div class="card-bdy">9 فروع بجميع العناوين والمواعيد وروابط الخريطة</div></div>
+        <div class="card" onclick="go('wh')"><div class="card-lbl">WHOLESALE</div><div class="card-ttl">🏪 الموزعين المعتمدين</div><div class="card-bdy">25+ موزع في جميع المحافظات</div></div>
+        <div class="card" onclick="go('in')"><div class="card-lbl">INFORMATION</div><div class="card-ttl">💡 معلومات المنتج</div><div class="card-bdy">التطبيق، التقسيط، بيانات التحويل، عروض الشركات</div></div>
+        <div class="card" onclick="go('cm')"><div class="card-lbl">COMMENTS</div><div class="card-ttl">💬 ردود الكومنتات</div><div class="card-bdy">ردود جاهزة لأشهر تعليقات وأسئلة العملاء</div></div>
+      </div>
+    </div>
+
+    <!-- QUALITY -->
+    <div class="sp" id="p-ql">
+      <div class="sh"><div><h2>معايير الجودة</h2></div></div>
+      <div class="qs"><h3>📞 الكول سنتر — Non-Critical</h3><div class="qgr">
+        <div class="qb"><h4>الفتح</h4><p>صباح/مساء الخير — Gold Era — (اسم الموظف) — اتشرف باسم حضرتك</p></div>
+        <div class="qb"><h4>الإغلاق</h4><p>أي استفسار آخر؟ — لو حابب يقيم المكالمة انتظر — شكرا لاختيارك جولد ايرا</p></div>
+        <div class="qb"><h4>الرد على المكالمة</h4><p>يجب الرد خلال 10 ثواني</p></div>
+        <div class="qb"><h4>الـ Hold</h4><p>أقصى 30 ثانية — مرة واحدة فقط — يطلب الانتظار ويشكر بعد الرجوع</p></div>
+      </div></div>
+      <div class="qs"><h3>📱 سوشيال ميديا — Non-Critical</h3><div class="qgr">
+        <div class="qb"><h4>الفتح</h4><p>لو الاسم واضح: "اهلاً وسهلاً أ. [الاسم]" — لو مش واضح: "اتشرف باسم حضرتك"</p></div>
+        <div class="qb"><h4>الإغلاق</h4><p>بعد 30 دقيقة — "أي استفسار آخر؟" — "شكرا لتواصلك مع جولد ايرا" مع 16728</p></div>
+        <div class="qb"><h4>Letter Errors</h4><p>التركيز على تفاصيل الشات — كل الكلام يكون مضبوط</p></div>
+        <div class="qb"><h4>مهارات التواصل</h4><p>أسلوب ودود ومهني — لا Mute أو صمت 7 ثواني — تجنب العامية</p></div>
+      </div></div>
+      <div class="qs"><h3><span class="crb">⚠️ Critical</span></h3><div class="qgr">
+        <div class="qb"><h4>المعلومات</h4><p>معلومات دقيقة وكاملة — التأكد قبل إبلاغ العميل — Upselling في كل مكالمة/شات</p></div>
+        <div class="qb"><h4>Problem Resolution</h4><p>لا يفوت أي Action — يبعت المستند الصح — لا رد بعد 30 دقيقة — لا Copy & Paste</p></div>
+        <div class="qb"><h4>Attitude</h4><p>تجنب أي أسلوب عدواني — لا يرد على المكالمة — Release Call</p></div>
+        <div class="qb"><h4>Follow Up</h4><p>3 مرات خلال اليوم بأوقات مختلفة — لو مردش يبعت واتساب</p></div>
+      </div></div>
+      <div class="qs"><h3>⚖️ الـ Threshold</h3><p style="font-size:13px;color:var(--muted)">أكثر من 4 Non-Critical وسكور 60% أو أقل → يكون Critical</p></div>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="sp" id="p-pr">
+      <div class="sh"><div><h2>البروسيسات والإجراءات</h2></div>
+        <button class="btn btn-g edit-toggle" style="display:none" onclick="oAdd('process')">+ إضافة بروسيس</button>
+      </div>
+      <div id="proc-list"></div>
+    </div>
+
+    <!-- BRANCHES -->
+    <div class="sp" id="p-br">
+      <div class="sh"><div><h2>الفروع</h2></div>
+        <button class="btn btn-g edit-toggle" style="display:none" onclick="oAddBranch()">+ إضافة فرع</button>
+      </div>
+      <div id="br-list"></div>
+    </div>
+
+    <!-- WHOLESALE -->
+    <div class="sp" id="p-wh">
+      <div class="sh">
+        <div><h2>الموزعين المعتمدين</h2><p style="color:var(--red)">⚠️ للاستخدام الداخلي فقط</p></div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <select id="gf" onchange="fW(this.value)" class="btn btn-o" style="cursor:pointer"><option value="">كل المحافظات</option></select>
+          <button class="btn btn-g edit-toggle" style="display:none" onclick="oAddWholesale()">+ إضافة موزع</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--brd)">
+        <table class="dt"><thead><tr><th>اسم المحل</th><th>العنوان</th><th>الرقم</th><th>المحافظة</th><th>المنطقة</th><th class="edit-toggle" style="display:none">إجراءات</th></tr></thead>
+        <tbody id="wb"></tbody></table>
+      </div>
+    </div>
+
+    <!-- INFORMATION -->
+    <div class="sp" id="p-in">
+      <div class="sh"><div><h2>معلومات المنتج والخدمات</h2></div>
+        <button class="btn btn-g edit-toggle" style="display:none" onclick="oAdd('info')">+ إضافة معلومة</button>
+      </div>
+      <div id="in-list"></div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="sp" id="p-px">
+      <div class="sh"><div><h2>الأسعار والمصنعيات</h2></div></div>
+      <div class="qs"><h3>💎 مصنعيات السبائك — عيار 24</h3><div id="sp-prices"></div></div>
+      <div class="qs" id="coins-section">
+        <h3>🪙 مصنعيات العملات — عيار 21</h3>
+        <div id="coins-list"></div>
+      </div>
+      <div class="qs"><h3>💳 تقسيط بنك مصر</h3><div id="bm-prices"></div></div>
+      <div class="qs"><h3>🏦 تقسيط CIB</h3><div id="cib-prices"></div></div>
+      <div class="qs"><h3>🚚 أسعار التوصيل</h3><div id="dl-prices"></div></div>
+    </div>
+
+    <!-- BANKING -->
+    <div class="sp" id="p-bk">
+      <div class="sh"><div><h2>البيانات البنكية</h2></div></div>
+      <div id="banking-list"></div>
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="sp" id="p-cm">
+      <div class="sh"><div><h2>ردود الكومنتات والمسدجات</h2></div>
+        <button class="btn btn-g edit-toggle" style="display:none" onclick="oAdd('comment')">+ إضافة رد</button>
+      </div>
+      <div id="cm-list"></div>
+    </div>
+
+    <!-- MANAGE -->
+    <div class="sp" id="p-mg">
+      <div class="sh"><div><h2>تعديل المحتوى</h2></div></div>
+      <div class="notice show" id="mg-notice"><span>ℹ️</span><span>لتعديل أي عنصر، فعّل <strong>وضع التعديل</strong> من الزر في الأعلى ثم اضغط على أيقونة القلم ✏️ بجانب أي عنصر</span></div>
+      <div class="cg">
+        <div class="card" onclick="go('pr');enableEditMode()"><div class="card-lbl">PROCESS</div><div class="card-ttl">✏️ تعديل البروسيسات</div><div class="card-bdy">إضافة أو تعديل أو حذف أي إجراء</div></div>
+        <div class="card" onclick="go('in');enableEditMode()"><div class="card-lbl">INFORMATION</div><div class="card-ttl">✏️ تعديل المعلومات</div><div class="card-bdy">إضافة أو تعديل معلومات المنتج والخدمات</div></div>
+        <div class="card" onclick="go('cm');enableEditMode()"><div class="card-lbl">COMMENTS</div><div class="card-ttl">✏️ تعديل ردود الكومنتات</div><div class="card-bdy">إضافة أو تعديل الردود الجاهزة</div></div>
+        <div class="card" onclick="go('br');enableEditMode()"><div class="card-lbl">BRANCHES</div><div class="card-ttl">✏️ تعديل الفروع</div><div class="card-bdy">تعديل عناوين ومواعيد الفروع</div></div>
+        <div class="card" onclick="go('wh');enableEditMode()"><div class="card-lbl">WHOLESALE</div><div class="card-ttl">✏️ تعديل الموزعين</div><div class="card-bdy">إضافة أو تعديل أو حذف موزع</div></div>
+        <div class="card" onclick="go('px');enableEditMode()"><div class="card-lbl">PRICING</div><div class="card-ttl">✏️ تعديل الأسعار</div><div class="card-bdy">تعديل المصنعيات وأسعار التوصيل</div></div>
+      </div>
+    </div>
+
+    <!-- ACCESS -->
+    <div class="sp" id="p-ac">
+      <div class="sh"><div><h2>إدارة الوصول</h2></div></div>
+      <div class="qs"><h3>🔗 رابط المشاركة</h3>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">أي شخص عنده الرابط يشوف المحتوى مباشرة — بدون تسجيل دخول</p>
+        <div class="slu" id="share-url">...</div>
+        <button class="btn btn-g" onclick="cpLink()">📋 نسخ الرابط</button>
+      </div>
+      <div class="qs" id="admin-sec" style="display:none">
+        <h3>👥 منح صلاحية التعديل</h3>
+        <p style="font-size:12px;color:var(--dim);margin-bottom:11px">أضف اسم الشخص — بعد الإضافة يظهر له زر "وضع التعديل" عند فتح الرابط بحسابه</p>
+        <div id="ac-list"></div>
+        <div style="display:flex;gap:7px;margin-top:11px">
+          <input type="text" id="new-ed" placeholder="اسم الشخص في حسابه على كلود..." style="flex:1;background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:9px 10px;color:var(--txt);font-family:Cairo,sans-serif;font-size:12.5px;outline:none">
+          <button class="btn btn-g" onclick="addEd()">+ إضافة</button>
+        </div>
+        <div id="ac-status" class="sm"></div>
+      </div>
+      <div class="qs"><h3>🎯 مستويات الصلاحية</h3>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div class="slb"><span class="rb r-adm">Admin</span><span class="ln">المدير — كل الصلاحيات بما فيها إدارة الوصول</span></div>
+          <div class="slb"><span class="rb r-edt">Editor</span><span class="ln">محرر — يضيف ويعدل ويحذف</span></div>
+          <div class="slb"><span class="rb r-vwr">Viewer</span><span class="ln">مشاهد — أي شخص يفتح الرابط</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="sp" id="p-sr">
+      <div class="sh"><div><h2>نتائج البحث</h2><p id="sr-lbl"></p></div></div>
+      <div id="sr-list"></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- GENERIC ADD/EDIT MODAL -->
+<div class="modal-ov" id="addM">
+  <div class="modal">
+    <h2 id="modal-h">إضافة</h2>
+    <div class="fr" id="sec-row"><label>القسم</label>
+      <select id="a-sec"><option value="process">بروسيس / إجراء</option><option value="info">معلومة منتج / خدمة</option><option value="comment">رد كومنت / سؤال</option></select>
+    </div>
+    <div class="fr"><label id="ttl-lbl">العنوان / السؤال</label><input type="text" id="a-ttl" placeholder="العنوان..."></div>
+    <div class="fr"><label id="bdy-lbl">المحتوى / الرد</label><textarea id="a-bdy" placeholder="المحتوى التفصيلي..."></textarea></div>
+    <div class="fr" id="note-row"><label>ملاحظة (اختياري)</label><input type="text" id="a-nt" placeholder="تنبيه أو ملاحظة..."></div>
+    <div id="a-st" class="sm"></div>
+    <div class="fac">
+      <button class="btn btn-o" onclick="cM()">إلغاء</button>
+      <button class="btn btn-g" id="modal-save-btn" onclick="svE()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- BRANCH MODAL -->
+<div class="modal-ov" id="branchM">
+  <div class="modal">
+    <h2 id="branch-modal-h">إضافة فرع</h2>
+    <div class="fr"><label>اسم الفرع</label><input type="text" id="br-name" placeholder="مثال: مصر الجديدة"></div>
+    <div class="fr"><label>العنوان</label><textarea id="br-addr" placeholder="العنوان التفصيلي..."></textarea></div>
+    <div class="fr"><label>مواعيد العمل</label><textarea id="br-hours" placeholder="السبت–الخميس: 11ص–10م&#10;الجمعة: 2م–10م"></textarea></div>
+    <div class="fr"><label>المحافظة</label><input type="text" id="br-city" placeholder="مثال: القاهرة"></div>
+    <div class="fr"><label>رابط الخريطة (اختياري)</label><input type="text" id="br-map" placeholder="https://maps..."></div>
+    <div id="br-st" class="sm"></div>
+    <div class="fac">
+      <button class="btn btn-o" onclick="document.getElementById('branchM').classList.remove('open')">إلغاء</button>
+      <button class="btn btn-g" onclick="svBranch()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- WHOLESALE MODAL -->
+<div class="modal-ov" id="wholesaleM">
+  <div class="modal">
+    <h2 id="wh-modal-h">إضافة موزع</h2>
+    <div class="fr"><label>اسم المحل</label><input type="text" id="wh-name" placeholder="مثال: مجوهرات الشاعر"></div>
+    <div class="fr"><label>العنوان</label><input type="text" id="wh-addr" placeholder="العنوان..."></div>
+    <div class="fr"><label>رقم الهاتف</label><input type="text" id="wh-phone" placeholder="01xxxxxxxxx"></div>
+    <div class="fr"><label>المحافظة</label><input type="text" id="wh-gov" placeholder="مثال: الغربية"></div>
+    <div class="fr"><label>المنطقة</label><input type="text" id="wh-area" placeholder="مثال: طنطا"></div>
+    <div id="wh-st" class="sm"></div>
+    <div class="fac">
+      <button class="btn btn-o" onclick="document.getElementById('wholesaleM').classList.remove('open')">إلغاء</button>
+      <button class="btn btn-g" onclick="svWholesale()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRICE EDIT MODAL -->
+<div class="modal-ov" id="priceM">
+  <div class="modal">
+    <h2 id="price-modal-h">تعديل السعر</h2>
+    <div class="fr"><label id="price-lbl">المصنعية (جنيه/جرام)</label><input type="number" id="price-val" placeholder="0"></div>
+    <div id="price-st" class="sm"></div>
+    <div class="fac">
+      <button class="btn btn-o" onclick="document.getElementById('priceM').classList.remove('open')">إلغاء</button>
+      <button class="btn btn-g" onclick="svPrice()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="modal-ov" id="shrM">
+  <div class="modal">
+    <h2>🔗 مشاركة Knowledge Base</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:6px">شارك الرابط مع فريقك</p>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:12px">✅ يُفتح مباشرة بدون تسجيل دخول</p>
+    <div class="slu" id="shr-url">...</div>
+    <div class="fac">
+      <button class="btn btn-o" onclick="document.getElementById('shrM').classList.remove('open')">إغلاق</button>
+      <button class="btn btn-g" onclick="cpLink()">📋 نسخ الرابط</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── LOGO ──
+const LOGO="";
+['sb-logo','tb-logo','hero-logo'].forEach(id=>{const el=document.getElementById(id);if(el)el.src=LOGO});
+document.getElementById('hero-bg').style.backgroundImage='url("'+LOGO+'")';
+
+// ── BASE DATA (mutable arrays) ──
+let BRANCHES=[
+  {id:'br0',n:'مصر الجديدة',a:'٦ شارع احمد تيسير متفرع من شارع المرغني — بجوار مترو كلية البنات',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'https://maps.app.goo.gl/9HC5EyYQpTSZoJd87',c:'القاهرة'},
+  {id:'br1',n:'العباسية',a:'4 شارع فهمي الجنزوري ميدان الجيش — بجوار مدرسة الحسينية لغات',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'https://maps.app.goo.gl/bP4dMwRGX7agCeKT6',c:'القاهرة'},
+  {id:'br2',n:'التجمع الخامس',a:'شارع التسعين الشمالي — مبنى كايرو بيزنس بلازا',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'https://maps.google.com/?q=30.027704,31.487658',c:'القاهرة'},
+  {id:'br3',n:'الصاغة',a:'١ زقاق الطاووس متفرع من شارع المعز — الجمالية',h:'السبت–الخميس: 11ص–8م\nالجمعة: 1م–8م\nالأحد: إجازة\n⚠️ مش شغال عقود ولا ديليفري',m:'https://goo.gl/maps/FP9hvw1zx7EQ38uHA',c:'القاهرة'},
+  {id:'br4',n:'الشيخ زايد',a:'مول فيو بجوار أسماك المرشدي — طريق وصلة دهشور',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'https://maps.app.goo.gl/4BVmZDgor8kZew7i6',c:'الجيزة'},
+  {id:'br5',n:'الإسكندرية',a:'352 طريق الجيش — جليم',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'https://maps.google.com/?q=31.240820,29.956993',c:'الإسكندرية'},
+  {id:'br6',n:'المنصورة',a:'السكة الجديدة — شارع الثورة — جانب صيدلية الطرشوبي',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nالأحد: إجازة\nآخر استقبال: 9:30م',m:'https://maps.app.goo.gl/ZvPdJfz8JfCyzd1r6',c:'الدقهلية'},
+  {id:'br7',n:'الفيوم',a:'مول سيتي بلازا — شارع النادي منشية لطف الله',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'',c:'الفيوم'},
+  {id:'br8',n:'طنطا',a:'شارع إستاد نادي طنطا — بجوار توكيل وي للاتصالات',h:'السبت–الخميس: 11ص–10م\nالجمعة: 2م–10م\nآخر استقبال: 9:30م',m:'https://maps.app.goo.gl/1pfkBiVkAyNTSfRu8',c:'الغربية'},
+];
+let PROCESSES=[
+  {id:'p0',t:'الرد على الكومنتات والمسدجات',b:'الرد خلال 30 دقيقة (SLA — Critical للميتا)'},
+  {id:'p1',t:'إدخال المكالمات في الشيت',b:'يُدخل في شيت الكول سنتر في نفس وقت المكالمة'},
+  {id:'p2',t:'إدخال الواتساب والميتا',b:'يُدخل في شيت المودريتور في نفس وقت الشات'},
+  {id:'p3',t:'الأسئلة للعميل',b:'أي سؤال للعميل بنسأله في الجروب الخاص — في نفس وقت المكالمة أو الشات'},
+  {id:'p4',t:'الرد على ميل الكواليتي (Critical)',b:'الرد بالتعديل في خلال ساعة'},
+  {id:'p5',t:'مسح أو تعديل الرسائل',b:'أي مسح أو تعديل لأي رسالة من أي جروب له علاقة بالشغل لازم يتم إرسال screenshot للكواليتي'},
+  {id:'p6',t:'Follow Up — 3 مرات',b:'لازم أكلم العميل 3 مرات من السيستم — لو مردش ببعت واتساب'},
+  {id:'p7',t:'مدة حل الشكوى',b:'في خلال ساعة عمل — من 10ص إلى 10م'},
+  {id:'p8',t:'الرد على Website Orders',b:'أي أوردر ويب سايت لازم يُهندله في خلال ساعة (Critical)\nلو العميل مش بيرد: 3 مرات خلال اليوم — على 10م يُبعت واتساب نقول فيها حاولنا الوصول وسيتم عمل Refund'},
+  {id:'p9',t:'أوردر الفيزيكال',b:'لو السعر نزل أقل من 100 جنيه: نقطع على سعر القطع\nلو نزل أكثر من 100 جنيه: نقطع على السعر الجديد ونبلغ الفرع\nلو السعر زاد 20 جنيه أو أكثر: نبلغ العميل ونأخد الفرق\nلو أقل من 20 جنيه: نقطع على الحالي'},
+  {id:'p10',t:'Application Troubleshooting',b:'1. التأكد من قوة الإنترنت\n2. Log out وLog in للتطبيق\n3. مسح Cache وBrowsing History\n4. مسح التطبيق وتحميله مجدداً\nبعدها يتم تقديم شكوى'},
+  {id:'p11',t:'الإجراءات البنكية — التطبيق',b:'السحب البنكي: 48-72 ساعة عمل\nالإيداع (Instapay): في الحال بحد أقصى ساعة\nالإيداع (تحويل بنكي): 48-72 ساعة عمل'},
+  {id:'p12',t:'ردود الميتا — نوع السؤال',b:'سؤال واضح: رد على السؤال + Upselling واحد\nسؤال غير واضح: يُرسل View Ad + Upselling\nبوست شركة تقسيط: تفاصيل التقسيط + Upselling واحد\nتفاصيل كثيرة دفعة واحدة: Critical (Robotic)'},
+  {id:'p13',t:'الساحل الشمالي — Stella Heights',b:'الأحد–الأربعاء: 11ص–7م\nالخميس–السبت: 11ص–8م\nهدايا فورية وسحوبات وخصومات حصرية'},
+];
+let INFO_QA=[
+  {id:'i0',q:'شركات التقسيط',a:'طبقاً لتعميم الهيئة العامة للرقابة المالية، شراء سبائك الذهب والفضة غير متاح من خلال التقسيط.\nطرق الشراء: Instapay — كاش — تحويل بنكي — الكروت البنكية'},
+  {id:'i1',q:'App Gold Era Egypt',a:'التطبيق لبيع وشراء الذهب فقط — غير متاح تخزين فلوس\nالإيداع وقت الشراء فقط\nأقل إيداع: 2000 جنيه — أول إيداع: 10000 جنيه\nالحساب يُغلق تلقائياً بعد 48 ساعة لو لم يتم شراء',n:'لا نقول: استثمار — محفظة — تداول'},
+  {id:'i2',q:'Gold Era Pro وMT5',a:'موقوف مؤقتاً — غير متاح تسجيل عملاء جديدة حالياً'},
+  {id:'i3',q:'عقود التطبيق',a:'غير متاح عقود أونلاين — يجب التوجه للفرع\nالصاغة غير متاحة للعقود\nالعملاء خارج مصر: توكيل رسمي لأقارب الدرجة الأولى\nأي عقد لازم يُبعت مع الباسبور'},
+  {id:'i4',q:'استبدال النقاط (Redemption)',a:'متاح مع: ADCB — ADIB — بنك مصر — بيلتون — &E — Attijari Wafa Bank\nلشراء الذهب فقط — لا استرداد نقدي\nمسموح بالاستبدال من رقم واحد فقط'},
+  {id:'i5',q:'Delivery — مواعيد الاستلام',a:'توصيل للمنزل: 7-10 أيام عمل\nديليفري تطبيق: 7 أيام\nحجز من الفرع للسبائك: 7-10 أيام\nحجز من الفرع للعملات: 15 يوم'},
+  {id:'i6',q:'Free Delivery',a:'مجاناً من 5 جرام حتى 1 كيلو — لفترة محدودة'},
+  {id:'i7',q:'لف وأكسب',a:'بعد أي شراء من الفروع المشاركة\nالجوائز: خصم مصنعية 5% أو 10% — هدايا — شنطة — قسيمة توصيل',n:'مش بنعمل بيها Upselling نهائياً'},
+  {id:'i8',q:'عميل شركات (Corporate)',a:'جميع قطعات موظفي الشركات تُنفَّذ بأي طريقة دفع\nيُرسل على جروب الفرع لو فرع — جروب ويب سايت لو توصيل\nيُحتاج ID الموظف مع القطعة'},
+  {id:'i9',q:'Souhoola (سهولة)',a:'مقدم 0 — 2% مصاريف تقسيط — التسليم بعد 10 أيام — متاح أونلاين حتى 12 ليلاً'},
+  {id:'i10',q:'TRU',a:'مقدم 0 — فائدة شهرية 1.25% — من 3 إلى 60 شهر — التسليم بعد 48 ساعة'},
+  {id:'i11',q:'موجو (Mogo)',a:'فائدة شهرية 1.5% — بدون مقدم — حتى 24 شهر — متاح أونلاين وفروع'},
+  {id:'i12',q:'Klivvr',a:'مقدم 0 — خصم 30% على 18 شهر (مرة واحدة لكل عميل) — حد أقصى 120,000 — التسليم بعد 48 ساعة'},
+  {id:'i13',q:'استرجاع الأوردر',a:'نسأل العميل عن السبب أولاً (Critical لو ما سألناش)\nنسجل في شيت الكومبلين\nنبعت ميل بالتفاصيل كاملة'},
+  {id:'i14',q:'POS — الفيزا في الفروع',a:'لو سأل عن سعر وزن: نوضح سعر الكاش فقط\nلو سأل عن الفيزا: نقول له يراجع الفرع\nلا نقول فيه 2% ولا مفيش 2% — Critical لو خالفنا\nلا يُقبل كروت بنكية غير مصرية'},
+  {id:'i15',q:'مميزات سبيكة Gold Era',a:'عيار 24 — نقاء 999.9\nأول سبيكة في مصر بـ QR Code\nأقل مصنعية في الشراء وأعلى كاش باك في البيع\nمغلفة من هيئة الدمغة والموازين المصرية'},
+  {id:'i16',q:'الاستلام بالوكالة',a:'العميل الأصلي يبعت ميل بيفوض فيه شخص آخر\nيبعت بطاقته وبطاقة المفوض — يمضي إقرار في الفرع'},
+  {id:'i17',q:'حفر على السبائك والعملات',a:'متاح النقش بالليزر — القالب الخاص له تكلفة إضافية\nالكاش باك لا يُطبق على النقش بالليزر'},
+];
+let COMMENTS=[
+  {id:'c0',q:'سعر سبيكة',r:'اهلاً أ.، سعداء بتواصلك مع جولد ايرا.\nتم توضيح السعر الاسترشادي اللحظي في رسالة\nيمكنك زيارة: https://gold-era.eg/shop//\nللمزيد: 16728 على مدار 24 ساعة.',n:'لازم تحدد السبيكة كام في الرد'},
+  {id:'c1',q:'الفضة',r:'اهلاً أ. سعداء بتواصلك مع جولد ايرا\nنوفر منتجات الفضة: ربع كيلو — نصف كيلو — كيلو\nزوروا: https://gold-era.eg/shop//\nللمساعدة: 16728'},
+  {id:'c2',q:'سؤال عن التطبيق',r:'اهلاً أ. سعداء بتواصلك مع جولد ايرا\nنوفر تطبيق Gold Era Egypt لبيع وشراء السبائك أون لاين\nسيتم التواصل معك عبر الرسائل\nhttps://gold-era.eg/shop'},
+  {id:'c3',q:'فروع في مدن أخرى',r:'اهلاً أ. سعداء بتواصلك مع جولد ايرا\nلا يوجد فرع رئيسي في "....." ولكن يوجد موزعون معتمدون\nلمعرفة أقرب موزع: https://gold-era.eg/ar/distributors/\nأو الاتصال على: 16728',n:'لازم توضح ان مفيش فرع رئيسي'},
+  {id:'c4',q:'طرق الدفع',r:'اهلاً أ.، سعداء بتواصلك مع جولد ايرا.\nطرق الدفع: نقداً — تحويل بنكي أو Instapay — التقسيط من خلال كبرى البنوك\nللمزيد: 16728 على مدار 24 ساعة.'},
+  {id:'c5',q:'يعني إيه كاش باك',r:'اهلاً أ.، سعداء بتواصلك مع جولد ايرا.\nعند البيع تحصل على نسبة من المصنعية التي دفعتها عند الشراء بشرط عدم فتح الغلاف.\nللمساعدة: 16728'},
+  {id:'c6',q:'الفروع أو المواعيد',r:'اهلاً أ.، سعداء لاختيارك جولد ايرا\nجميع الفروع ومواعيد العمل: https://gold-era.eg/ar/contact-us/\nللمساعدة: 16728 على مدار 24 ساعة.'},
+  {id:'c7',q:'شكوى من خدمة',r:'اهلاً أ. [الاسم]، نأسف لعدم رضاك عن تجربتك معنا\nللتقدم بشكوى: 16728\nسنتولى حلها خلال 48 ساعة عمل'},
+  {id:'c8',q:'كل سنة وأنتوا طيبين',r:'اهلاً أ.، شكراً، وحضرتك طيب، ونتمنى لك دوام الخير.',n:'الكومنت ده بس — مش ببعتش لينكات'},
+  {id:'c9',q:'العميل قافل استقبال الرسائل',r:'شكرا لتواصل حضرتك مع جولد ايرا\nلم نتمكن من إرسال التفاصيل بسبب أن الرسائل مغلقة\nبرجاء إرسال رقمك في رسالة وسيتم التواصل معك'},
+  {id:'c10',q:'ايه المميز في شركتكم',r:'اهلاً أ.، سعداء لتواصلك مع جولد ايرا.\nأفضل وأجود السبائك والجنيهات بأعلى درجات الدقة.\nخدمة عملاء 24 ساعة كل أيام الأسبوع.\nتطبيق Gold Era Egypt الأول في مصر.\nيمكنك زيارة: https://gold-era.eg/shop//\nللمساعدة: 16728'},
+];
+let WHOLESALE=[
+  {id:'w0',n:'توباز للمصوغات',a:'19 ش الشهيد مصطفى حافظ — المنشية',p:'34860767',g:'الإسكندرية',ar:'المنشية'},
+  {id:'w1',n:'مجوهرات اسامه حسن',a:'ش نبوي المهندس بجوار مكتبة هشام',p:'1092003804',g:'كفر الشيخ',ar:'كفر الشيخ'},
+  {id:'w2',n:'مجوهرات نبيل انطوان زكي',a:'42 ش الباب الأخضر اللبان',p:'1288881515',g:'الإسكندرية',ar:'اللبان'},
+  {id:'w3',n:'مجوهرات الشاعر',a:'٥ ش درب الخولي — الصاغة',p:'1092003804',g:'الغربية',ar:'طنطا'},
+  {id:'w4',n:'مجوهرات رافت عدلي',a:'شارع الصاغة',p:'1208837444',g:'الغربية',ar:'طنطا'},
+  {id:'w5',n:'مجوهرات سمير توفيق',a:'شارع الصاغة',p:'1225322430',g:'الغربية',ar:'طنطا'},
+  {id:'w6',n:'مجوهرات أولاد جورج نسيم',a:'شارع الصاغة',p:'403333110',g:'الغربية',ar:'طنطا'},
+  {id:'w7',n:'مجوهرات زاد',a:'مديرية التحرير — السوق التجاري',p:'1060445339',g:'الغربية',ar:'طنطا'},
+  {id:'w8',n:'مجوهرات سماء الله الحسني',a:'امتداد ميدان الصاغة',p:'1223745345',g:'الغربية',ar:'طنطا'},
+  {id:'w9',n:'مجوهرات احمد سعيد',a:'ش جمال عبدالناصر — دوران جيهان',p:'1223146765',g:'الإسكندرية',ar:'سيدي بشر'},
+  {id:'w10',n:'مجوهرات الملكة — طنطا',a:'الجنبية بجوار فندق عرفة',p:'1098012069',g:'الغربية',ar:'طنطا'},
+  {id:'w11',n:'مجوهرات الراهب',a:'شارع الصاغة',p:'1284727487',g:'الغربية',ar:'طنطا'},
+  {id:'w12',n:'مجوهرات فريد كيرلس',a:'28 ش الشهيد مصطفى حافظ المنشية',p:'34802495',g:'الإسكندرية',ar:'المنشية'},
+  {id:'w13',n:'مجوهرات الضوي',a:'19 ش الشهيد مصطفى حافظ — المنشية',p:'34817253',g:'الإسكندرية',ar:'المنشية'},
+  {id:'w14',n:'مجوهرات محمود زغلول',a:'ش النادي الاجتماعي ايتاي البارود',p:'1003900409',g:'البحيرة',ar:'ايتاي البارود'},
+  {id:'w15',n:'مجوهرات أم النور — طنطا',a:'ميدان الصاغة',p:'35555803',g:'الغربية',ar:'طنطا'},
+  {id:'w16',n:'مجوهرات أم النور — اسوان',a:'كورنيش النيل بجوار men club',p:'1227846002',g:'اسوان',ar:'اسوان'},
+  {id:'w17',n:'مجوهرات سان ستيفانو',a:'9 ش معبد الكرنك — الأقصر',p:'1221115609',g:'الأقصر',ar:'الأقصر'},
+  {id:'w18',n:'مصوغات السمهودي',a:'نجع حمادي — ش التحرير',p:'1276658866',g:'قنا',ar:'نجع حمادي'},
+  {id:'w19',n:'مجوهرات الملكة والبطل — اسوان',a:'ش محمود بطيط',p:'1224112357',g:'اسوان',ar:'اسوان'},
+  {id:'w20',n:'مصوغات جاليري',a:'ميدان المحطة — مول الذهب',p:'1029571992',g:'اسوان',ar:'اسوان'},
+  {id:'w21',n:'مصوغات الماس',a:'ش الجمهورية — برج المراكبي',p:'1006556690',g:'الفيوم',ar:'الفيوم'},
+  {id:'w22',n:'مجوهرات الديب',a:'ش جمال عبدالناصر أمام رنين',p:'1111184171',g:'القاهرة',ar:'عين شمس'},
+  {id:'w23',n:'مجوهرات احمد بورصة',a:'ش مصر وسوريا — بجوار المسجد العباسي',p:'1200006223',g:'الإسماعيلية',ar:'الإسماعيلية'},
+  {id:'w24',n:'مجوهرات الرحمن',a:'—',p:'1005067697',g:'القليوبية',ar:'القليوبية'},
+];
+let SPIKE_PRICES=[
+  {id:'sp0',w:'ربع جرام',m:190},{id:'sp1',w:'نصف جرام',m:180},{id:'sp2',w:'1 جرام',m:175},
+  {id:'sp3',w:'2.5 جرام',m:105},{id:'sp4',w:'5 جرام',m:77},{id:'sp5',w:'10 جرام',m:75},
+  {id:'sp6',w:'15.55 جرام (نصف أونصة)',m:72},{id:'sp7',w:'20 جرام',m:70},
+  {id:'sp8',w:'25 جرام',m:70},{id:'sp9',w:'31.10 جرام (أونصة)',m:70},
+  {id:'sp10',w:'50 جرام',m:66},{id:'sp11',w:'100 جرام',m:64},
+];
+let COIN_PRICES=[
+  {id:'cp0',w:'جنيه — 8 جرام',m:80},{id:'cp1',w:'نصف جنيه — 4 جرام',m:75},{id:'cp2',w:'ربع جنيه — 2 جرام',m:72},
+];
+let BM_PRICES=[
+  {id:'bm0',m:'3 أشهر',p:'5.75%'},{id:'bm1',m:'6 أشهر',p:'8.5%'},{id:'bm2',m:'9 أشهر',p:'11%'},
+  {id:'bm3',m:'12 شهر',p:'14%'},{id:'bm4',m:'18 شهر',p:'18%'},{id:'bm5',m:'24 شهر',p:'22%'},
+  {id:'bm6',m:'36 شهر',p:'29%'},{id:'bm7',m:'48 شهر',p:'35%'},{id:'bm8',m:'60 شهر',p:'41%'},
+];
+let CIB_PRICES=[
+  {id:'ci0',m:'6 أشهر',p:'8.50%'},{id:'ci1',m:'12 شهر',p:'14%'},{id:'ci2',m:'18 شهر',p:'19.70%'},
+];
+let DL_PRICES=[
+  {id:'dl0',a:'القاهرة',p:330},{id:'dl1',a:'الجيزة',p:330},{id:'dl2',a:'القليوبية',p:460},
+  {id:'dl3',a:'الغربية',p:460},{id:'dl4',a:'الشرقية',p:460},{id:'dl5',a:'بورسعيد',p:460},
+  {id:'dl6',a:'الدقهلية',p:460},{id:'dl7',a:'كفر الشيخ',p:460},{id:'dl8',a:'البحيرة',p:460},
+  {id:'dl9',a:'الإسكندرية',p:460},{id:'dl10',a:'المنوفية',p:460},{id:'dl11',a:'دمياط',p:460},
+  {id:'dl12',a:'السويس',p:460},{id:'dl13',a:'الفيوم',p:460},{id:'dl14',a:'الإسماعيلية',p:460},
+  {id:'dl15',a:'بني سويف',p:790},{id:'dl16',a:'المنيا',p:790},{id:'dl17',a:'أسيوط',p:790},
+  {id:'dl18',a:'سوهاج',p:790},{id:'dl19',a:'قنا',p:990},{id:'dl20',a:'الأقصر',p:990},
+  {id:'dl21',a:'الوادي الجديد',p:1180},{id:'dl22',a:'أسوان',p:1180},
+];
+let BANKING=[
+  {id:'bk0',name:'بنك الإمارات دبي الوطني — ايداعات التطبيق',details:'اسم المستفيد: GOLD ERA FOR GOLD TRADING\nرقم الحساب: 0499909828503\nIBAN: EG950014003500000499909828503\nفرع: المعادي النصر | Swift: EBILEGCXXXX'},
+  {id:'bk1',name:'بنك مصر — الطلبات الفيزيكال',details:'اسم المستفيد: GOLD ERA FOR GOLD TRADING\nرقم الحساب: 1190199000001255\nIBAN: EG600002011901190199000001255\nفرع: روكسي هليوبوليس | Swift: BMISEGCX140'},
+  {id:'bk2',name:'فودافون كاش — أرقام الإيداع',details:'01029529531 | 01008642387 | 01068170485 | 01008627143\nمواعيد الخدمة: 11 ص — 10 م'},
+];
+
+// ── RUNTIME STATE ──
+let db,uCap,role='viewer',editors=[],currentUser=null;
+let editModeOn=false;
+let editingId=null,editingType=null,priceCb=null;
+
+// ── INIT ──
+async function init(){
+  rAll();
+  const url=window.location.href;
+  ['share-url','shr-url'].forEach(id=>document.getElementById(id).textContent=url);
+  try{
+    if(window.claude){
+      [db,uCap]=await Promise.all([claude.use('db'),claude.use('user')]);
+      currentUser=await uCap.getUser();
+      await loadFromDB();
+      await loadEds();
+      await chkRole();
+      updUI();
+      document.getElementById('su-lbl').textContent='👤 '+(currentUser.name||currentUser.id||'');
+    }
+  }catch(e){
+    document.getElementById('guest-notice').classList.add('show');
+  }
+}
+async function loadFromDB(){
+  if(!db)return;
+  try{
+    // Load all overrides from DB
+    const cols=['branches','processes','info_qa','comments','wholesale','spike_prices','coin_prices','bm_prices','cib_prices','dl_prices','banking'];
+    for(const col of cols){
+      const snap=await db.collection(col).get();
+      if(!snap.empty){
+        const data=snap.docs.map(d=>({id:d.id,...d.data()}));
+        if(col==='branches')BRANCHES=data;
+        else if(col==='processes')PROCESSES=data;
+        else if(col==='info_qa')INFO_QA=data;
+        else if(col==='comments')COMMENTS=data;
+        else if(col==='wholesale')WHOLESALE=data;
+        else if(col==='spike_prices')SPIKE_PRICES=data;
+        else if(col==='coin_prices')COIN_PRICES=data;
+        else if(col==='bm_prices')BM_PRICES=data;
+        else if(col==='cib_prices')CIB_PRICES=data;
+        else if(col==='dl_prices')DL_PRICES=data;
+        else if(col==='banking')BANKING=data;
+      }
+    }
+    rAll();
+  }catch(e){console.log('DB load',e)}
+}
+async function loadEds(){
+  if(!db)return;
+  try{const s=await db.collection('editors').get();editors=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}
+}
+async function chkRole(){
+  if(!currentUser||!db)return;
+  const uid=currentUser.id,uname=(currentUser.name||'').toLowerCase();
+  try{
+    const a=await db.collection('admins').doc('list').get();
+    if(a.exists){if((a.data().ids||[]).includes(uid)){role='admin';return}}
+    else{await db.collection('admins').doc('list').set({ids:[uid]});role='admin';return}
+  }catch(e){}
+  if(editors.find(e=>e.uid===uid||(e.name&&e.name.toLowerCase()===uname)))role='editor';
+}
+function updUI(){
+  const canEdit=role==='admin'||role==='editor';
+  document.getElementById('btn-add').style.display=canEdit?'inline-flex':'none';
+  document.getElementById('edit-toggle-btn').classList.toggle('show',canEdit);
+  document.getElementById('admin-sec').style.display=role==='admin'?'block':'none';
+  document.getElementById('guest-notice').classList.remove('show');
+}
+
+// ── EDIT MODE ──
+function toggleEditMode(){
+  if(role==='viewer'){alert('🔒 أنت تشاهد فقط');return}
+  editModeOn=!editModeOn;
+  document.body.classList.toggle('edit-mode',editModeOn);
+  const btn=document.getElementById('edit-toggle-btn');
+  btn.textContent=editModeOn?'✅ إيقاف التعديل':'✏️ وضع التعديل';
+  btn.className=editModeOn?'btn btn-g show':'btn btn-blue show';
+  document.getElementById('edit-mode-bar').classList.toggle('show',editModeOn);
+  // Show/hide edit-toggle elements
+  document.querySelectorAll('.edit-toggle').forEach(el=>{
+    if(el.classList.contains('show')||el.id==='edit-toggle-btn')return;
+    el.style.display=editModeOn?'inline-flex':'none';
+  });
+  // Refresh wholesale table header
+  const whTh=document.querySelector('#p-wh table thead tr th:last-child');
+  if(whTh)whTh.style.display=editModeOn?'':'none';
+  rAll();
+}
+function enableEditMode(){
+  if(!editModeOn&&(role==='admin'||role==='editor'))toggleEditMode();
+}
+
+// ── DB SAVE ──
+async function dbSave(col,id,data){
+  if(!db)return;
+  try{await db.collection(col).doc(id).set(data)}catch(e){console.log(e)}
+}
+async function dbDel(col,id){
+  if(!db)return;
+  try{await db.collection(col).doc(id).delete()}catch(e){console.log(e)}
+}
+async function dbSaveAll(col,arr){
+  if(!db)return;
+  // batch write
+  for(const item of arr){await dbSave(col,item.id,item)}
+}
+
+// ── RENDER ──
+function rAll(){rBr();rWh();rPrices();rProc();rIn();rCm();rBanking();updateStats()}
+function updateStats(){
+  document.getElementById('stat-br').textContent=BRANCHES.length;
+  document.getElementById('stat-wh').textContent=WHOLESALE.length+'+';
+}
+
+function editBtns(onEdit,onDel){
+  return `<div style="display:flex;gap:4px;flex-shrink:0">
+    <button class="btn btn-blue" style="padding:3px 8px;font-size:11px" onclick="${onEdit}">✏️</button>
+    <button class="btn btn-red" style="padding:3px 8px;font-size:11px" onclick="${onDel}">🗑️</button>
+  </div>`;
+}
+
+function rProc(){
+  document.getElementById('proc-list').innerHTML=PROCESSES.map((p,i)=>`
+    <div class="ps">
+      <div class="sn">${i+1}</div>
+      <div class="ps-body"><strong>${p.t}</strong>${(p.b||'').replace(/\n/g,'<br>')}</div>
+      <div class="ps-actions">${editBtns(`editItem('process','${p.id}')`,`delItem('process','${p.id}')`)}</div>
+    </div>`).join('');
+}
+
+function rIn(){
+  document.getElementById('in-list').innerHTML=INFO_QA.map(it=>`
+    <div class="item-row">
+      <div class="item-header">
+        <div class="ih-main" onclick="this.closest('.item-row').classList.toggle('open')">
+          <div class="ih-title">❓ ${it.q||it.t}</div>
+          <div class="ih-body">${(it.a||it.r||'').replace(/\n/g,'<br>')}${it.n?`<div class="item-note">💡 ${it.n}</div>`:''}</div>
+        </div>
+        <span class="ih-arrow" onclick="this.closest('.item-row').classList.toggle('open')">▼</span>
+        <div class="item-actions">${editBtns(`editItem('info','${it.id}')`,`delItem('info','${it.id}')`)}</div>
+      </div>
+    </div>`).join('');
+}
+
+function rCm(){
+  document.getElementById('cm-list').innerHTML=COMMENTS.map(it=>`
+    <div class="item-row">
+      <div class="item-header">
+        <div class="ih-main" onclick="this.closest('.item-row').classList.toggle('open')">
+          <div class="ih-title">💬 ${it.q}</div>
+          <div class="ih-body">${(it.r||'').replace(/\n/g,'<br>')}${it.n?`<div class="item-note">💡 ${it.n}</div>`:''}</div>
+        </div>
+        <span class="ih-arrow" onclick="this.closest('.item-row').classList.toggle('open')">▼</span>
+        <div class="item-actions">${editBtns(`editItem('comment','${it.id}')`,`delItem('comment','${it.id}')`)}</div>
+      </div>
+    </div>`).join('');
+}
+
+function rBr(){
+  document.getElementById('br-list').innerHTML=BRANCHES.map(b=>`
+    <div class="bc">
+      <div class="bc-actions">${editBtns(`editBranch('${b.id}')`,`delBranch('${b.id}')`)}</div>
+      <div class="bn">📍 ${b.n} <span class="gb">${b.c}</span></div>
+      <div class="ba">${b.a}</div>
+      <div class="bh"><strong>⏰</strong><br>${b.h.replace(/\n/g,'<br>')}</div>
+      ${b.m?`<a class="ml" href="${b.m}" target="_blank">🗺️ فتح الخريطة</a>`:''}
+    </div>`).join('');
+}
+
+function rWh(f=''){
+  const govs=new Set();
+  document.getElementById('wb').innerHTML=WHOLESALE.filter(d=>!f||d.g===f).map(d=>{govs.add(d.g);return`
+    <tr>
+      <td><strong>${d.n}</strong></td><td>${d.a}</td>
+      <td><a href="tel:0${d.p}" style="color:var(--gold)">0${d.p}</a></td>
+      <td><span class="gb">${d.g}</span></td><td>${d.ar}</td>
+      <td style="display:${editModeOn?'':'none'}">
+        <div style="display:flex;gap:4px">${editBtns(`editWholesale('${d.id}')`,`delWholesale('${d.id}')`)}</div>
+      </td>
+    </tr>`}).join('');
+  const sel=document.getElementById('gf');
+  if(sel.options.length===1)[...govs].sort().forEach(g=>{const o=new Option(g,g);sel.add(o)});
+}
+function fW(v){rWh(v)}
+
+function priceRow(item,col,label){
+  const val=item.p!==undefined?item.p:item.m;
+  const unit=item.m!==undefined?' ج/جرام':'';
+  return `<div class="pr">
+    <span class="wt">${label||item.w||item.a||item.m}</span>
+    <div class="price-editable">
+      <span class="am">${val}${unit}</span>
+      <button class="btn btn-blue price-edit-btn" style="padding:2px 7px;font-size:11px" onclick="editPrice('${col}','${item.id}','${label||item.w||item.a||item.m}')">✏️</button>
+    </div>
+  </div>`;
+}
+
+function rPrices(){
+  document.getElementById('sp-prices').innerHTML=
+    SPIKE_PRICES.map(p=>priceRow(p,'spike_prices')).join('')+
+    `<div style="padding:9px 12px;font-size:11px;color:var(--dim)">✦ غلاف مغلق: 28 ج/جرام &nbsp;|&nbsp; ✦ بدون غلاف: 11 ج/جرام</div>`;
+  document.getElementById('coins-list').innerHTML=COIN_PRICES.map(p=>priceRow(p,'coin_prices')).join('');
+  document.getElementById('bm-prices').innerHTML=BM_PRICES.map(p=>`
+    <div class="pr"><span class="wt">${p.m}</span><div class="price-editable"><span class="am">${p.p}</span>
+    <button class="btn btn-blue price-edit-btn" style="padding:2px 7px;font-size:11px" onclick="editBMPrice('${p.id}','${p.m}')">✏️</button></div></div>`).join('');
+  document.getElementById('cib-prices').innerHTML=CIB_PRICES.map(p=>`
+    <div class="pr"><span class="wt">${p.m}</span><div class="price-editable"><span class="am">${p.p}</span>
+    <button class="btn btn-blue price-edit-btn" style="padding:2px 7px;font-size:11px" onclick="editCIBPrice('${p.id}','${p.m}')">✏️</button></div></div>`).join('')+
+    `<div style="padding:9px 12px;font-size:11px;color:var(--dim)">مقدم 0 — فائدة 0 — يُضاف على الإجمالي</div>`;
+  document.getElementById('dl-prices').innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;padding:4px 0">${
+    DL_PRICES.map(p=>`<div class="pr" style="background:var(--bg3);border-radius:7px;margin:0;padding:7px 10px">
+      <span class="wt" style="font-size:11.5px">${p.a}</span>
+      <div class="price-editable"><span class="am">${p.p} ج</span>
+      <button class="btn btn-blue price-edit-btn" style="padding:1px 5px;font-size:10px" onclick="editDLPrice('${p.id}','${p.a}')">✏️</button></div>
+    </div>`).join('')}</div>`;
+}
+
+function rBanking(){
+  document.getElementById('banking-list').innerHTML=BANKING.map(b=>`
+    <div class="bb">
+      <button class="btn btn-blue bb-edit-btn" style="padding:3px 8px;font-size:11px" onclick="editBanking('${b.id}')">✏️ تعديل</button>
+      <div class="bbn">🏦 ${b.name}</div>
+      ${b.details.split('\n').map(l=>`<div>${l.replace(/([A-Z0-9]+):/g,'<strong>$1:</strong>').replace(/([A-Z]{2,}\d+)/g,'<code>$1</code>')}</div>`).join('')}
+    </div>`).join('');
+}
+
+// ── EDIT ITEMS (process/info/comment) ──
+function editItem(type,id){
+  const map={process:PROCESSES,info:INFO_QA,comment:COMMENTS};
+  const col={process:'processes',info:'info_qa',comment:'comments'};
+  const arr=map[type];const item=arr.find(x=>x.id===id);if(!item)return;
+  editingId=id;editingType=type;
+  document.getElementById('modal-h').textContent='تعديل';
+  document.getElementById('sec-row').style.display='none';
+  document.getElementById('a-ttl').value=item.t||item.q||'';
+  document.getElementById('a-bdy').value=item.b||item.a||item.r||'';
+  document.getElementById('a-nt').value=item.n||'';
+  document.getElementById('a-st').style.display='none';
+  document.getElementById('modal-save-btn').onclick=()=>updateItem(type,id,col[type]);
+  document.getElementById('addM').classList.add('open');
+}
+async function updateItem(type,id,col){
+  const map={process:PROCESSES,info:INFO_QA,comment:COMMENTS};
+  const arr=map[type];const idx=arr.findIndex(x=>x.id===id);if(idx<0)return;
+  const ttl=document.getElementById('a-ttl').value.trim();
+  const bdy=document.getElementById('a-bdy').value.trim();
+  const nt=document.getElementById('a-nt').value.trim();
+  if(!ttl||!bdy){showSt('a-st','يرجى ملء الحقول','er');return}
+  if(type==='process'){arr[idx]={...arr[idx],t:ttl,b:bdy}}
+  else if(type==='info'){arr[idx]={...arr[idx],q:ttl,a:bdy,n:nt}}
+  else if(type==='comment'){arr[idx]={...arr[idx],q:ttl,r:bdy,n:nt}}
+  await dbSave(col,id,arr[idx]);
+  rAll();cM();
+}
+async function delItem(type,id){
+  if(!confirm('حذف هذا العنصر نهائياً؟'))return;
+  const map={process:PROCESSES,info:INFO_QA,comment:COMMENTS};
+  const col={process:'processes',info:'info_qa',comment:'comments'};
+  map[type]=map[type].filter(x=>x.id!==id);
+  if(type==='process')PROCESSES=map[type];
+  else if(type==='info')INFO_QA=map[type];
+  else if(type==='comment')COMMENTS=map[type];
+  await dbDel(col[type],id);
+  rAll();
+}
+
+// ── ADD ITEM ──
+function oAdd(sec){
+  if(role==='viewer'){alert('🔒 تسجيل الدخول مطلوب للتعديل');return}
+  editingId=null;editingType=null;
+  document.getElementById('modal-h').textContent='إضافة';
+  document.getElementById('sec-row').style.display='block';
+  if(sec)document.getElementById('a-sec').value=sec;
+  ['a-ttl','a-bdy','a-nt'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('a-st').style.display='none';
+  document.getElementById('modal-save-btn').onclick=svE;
+  document.getElementById('addM').classList.add('open');
+}
+async function svE(){
+  const sec=document.getElementById('a-sec').value;
+  const ttl=document.getElementById('a-ttl').value.trim();
+  const bdy=document.getElementById('a-bdy').value.trim();
+  const nt=document.getElementById('a-nt').value.trim();
+  if(!ttl||!bdy){showSt('a-st','يرجى ملء الحقول','er');return}
+  const id='new_'+Date.now();
+  if(sec==='process'){const item={id,t:ttl,b:bdy};PROCESSES.push(item);await dbSave('processes',id,item)}
+  else if(sec==='info'){const item={id,q:ttl,a:bdy,n:nt};INFO_QA.push(item);await dbSave('info_qa',id,item)}
+  else if(sec==='comment'){const item={id,q:ttl,r:bdy,n:nt};COMMENTS.push(item);await dbSave('comments',id,item)}
+  showSt('a-st','✅ تم الحفظ','ok');rAll();setTimeout(cM,900);
+}
+
+// ── BRANCHES ──
+let editingBranchId=null;
+function oAddBranch(){
+  editingBranchId=null;
+  document.getElementById('branch-modal-h').textContent='إضافة فرع';
+  ['br-name','br-addr','br-hours','br-city','br-map'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('br-st').style.display='none';
+  document.getElementById('branchM').classList.add('open');
+}
+function editBranch(id){
+  const b=BRANCHES.find(x=>x.id===id);if(!b)return;
+  editingBranchId=id;
+  document.getElementById('branch-modal-h').textContent='تعديل الفرع';
+  document.getElementById('br-name').value=b.n;
+  document.getElementById('br-addr').value=b.a;
+  document.getElementById('br-hours').value=b.h;
+  document.getElementById('br-city').value=b.c;
+  document.getElementById('br-map').value=b.m||'';
+  document.getElementById('br-st').style.display='none';
+  document.getElementById('branchM').classList.add('open');
+}
+async function svBranch(){
+  const n=document.getElementById('br-name').value.trim();
+  const a=document.getElementById('br-addr').value.trim();
+  if(!n||!a){showSt('br-st','يرجى ملء الاسم والعنوان','er');return}
+  const item={n,a,h:document.getElementById('br-hours').value.trim(),c:document.getElementById('br-city').value.trim(),m:document.getElementById('br-map').value.trim()};
+  if(editingBranchId){
+    const idx=BRANCHES.findIndex(x=>x.id===editingBranchId);
+    BRANCHES[idx]={...BRANCHES[idx],...item};
+    await dbSave('branches',editingBranchId,BRANCHES[idx]);
+  }else{
+    const id='br_'+Date.now();const full={id,...item};
+    BRANCHES.push(full);await dbSave('branches',id,full);
+  }
+  showSt('br-st','✅ تم الحفظ','ok');rAll();setTimeout(()=>document.getElementById('branchM').classList.remove('open'),900);
+}
+async function delBranch(id){
+  if(!confirm('حذف هذا الفرع نهائياً؟'))return;
+  BRANCHES=BRANCHES.filter(x=>x.id!==id);await dbDel('branches',id);rAll();
+}
+
+// ── WHOLESALE ──
+let editingWHId=null;
+function oAddWholesale(){
+  editingWHId=null;
+  document.getElementById('wh-modal-h').textContent='إضافة موزع';
+  ['wh-name','wh-addr','wh-phone','wh-gov','wh-area'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('wh-st').style.display='none';
+  document.getElementById('wholesaleM').classList.add('open');
+}
+function editWholesale(id){
+  const w=WHOLESALE.find(x=>x.id===id);if(!w)return;
+  editingWHId=id;
+  document.getElementById('wh-modal-h').textContent='تعديل الموزع';
+  document.getElementById('wh-name').value=w.n;
+  document.getElementById('wh-addr').value=w.a;
+  document.getElementById('wh-phone').value=w.p;
+  document.getElementById('wh-gov').value=w.g;
+  document.getElementById('wh-area').value=w.ar;
+  document.getElementById('wh-st').style.display='none';
+  document.getElementById('wholesaleM').classList.add('open');
+}
+async function svWholesale(){
+  const n=document.getElementById('wh-name').value.trim();if(!n){showSt('wh-st','يرجى إدخال الاسم','er');return}
+  const item={n,a:document.getElementById('wh-addr').value.trim(),p:document.getElementById('wh-phone').value.trim(),g:document.getElementById('wh-gov').value.trim(),ar:document.getElementById('wh-area').value.trim()};
+  if(editingWHId){
+    const idx=WHOLESALE.findIndex(x=>x.id===editingWHId);
+    WHOLESALE[idx]={...WHOLESALE[idx],...item};await dbSave('wholesale',editingWHId,WHOLESALE[idx]);
+  }else{
+    const id='wh_'+Date.now();const full={id,...item};WHOLESALE.push(full);await dbSave('wholesale',id,full);
+  }
+  showSt('wh-st','✅ تم الحفظ','ok');rAll();setTimeout(()=>document.getElementById('wholesaleM').classList.remove('open'),900);
+}
+async function delWholesale(id){
+  if(!confirm('حذف هذا الموزع نهائياً؟'))return;
+  WHOLESALE=WHOLESALE.filter(x=>x.id!==id);await dbDel('wholesale',id);rAll();
+}
+
+// ── PRICES ──
+let priceEditTarget=null;
+function openPriceModal(title,currentVal,cb){
+  document.getElementById('price-modal-h').textContent='تعديل: '+title;
+  document.getElementById('price-val').value=currentVal;
+  document.getElementById('price-st').style.display='none';
+  priceEditTarget=cb;
+  document.getElementById('priceM').classList.add('open');
+}
+async function svPrice(){
+  const val=document.getElementById('price-val').value.trim();
+  if(!val){showSt('price-st','يرجى إدخال القيمة','er');return}
+  if(priceEditTarget)await priceEditTarget(val);
+  showSt('price-st','✅ تم الحفظ','ok');rAll();setTimeout(()=>document.getElementById('priceM').classList.remove('open'),800);
+}
+function editPrice(col,id,label){
+  const arr=col==='spike_prices'?SPIKE_PRICES:COIN_PRICES;
+  const item=arr.find(x=>x.id===id);if(!item)return;
+  openPriceModal(label,item.m,async(v)=>{item.m=Number(v);await dbSave(col,id,item)});
+}
+function editDLPrice(id,label){
+  const item=DL_PRICES.find(x=>x.id===id);if(!item)return;
+  openPriceModal(label,item.p,async(v)=>{item.p=Number(v);await dbSave('dl_prices',id,item)});
+}
+function editBMPrice(id,label){
+  const item=BM_PRICES.find(x=>x.id===id);if(!item)return;
+  document.getElementById('price-modal-h').textContent='تعديل: '+label;
+  document.getElementById('price-val').value=item.p;
+  document.getElementById('price-st').style.display='none';
+  priceEditTarget=async(v)=>{item.p=v;await dbSave('bm_prices',id,item)};
+  document.getElementById('priceM').classList.add('open');
+}
+function editCIBPrice(id,label){
+  const item=CIB_PRICES.find(x=>x.id===id);if(!item)return;
+  document.getElementById('price-modal-h').textContent='تعديل: '+label;
+  document.getElementById('price-val').value=item.p;
+  document.getElementById('price-st').style.display='none';
+  priceEditTarget=async(v)=>{item.p=v;await dbSave('cib_prices',id,item)};
+  document.getElementById('priceM').classList.add('open');
+}
+
+// ── BANKING ──
+function editBanking(id){
+  const b=BANKING.find(x=>x.id===id);if(!b)return;
+  document.getElementById('modal-h').textContent='تعديل البيانات البنكية';
+  document.getElementById('sec-row').style.display='none';
+  document.getElementById('a-ttl').value=b.name;
+  document.getElementById('a-bdy').value=b.details;
+  document.getElementById('note-row').style.display='none';
+  document.getElementById('a-st').style.display='none';
+  document.getElementById('modal-save-btn').onclick=async()=>{
+    b.name=document.getElementById('a-ttl').value.trim();
+    b.details=document.getElementById('a-bdy').value.trim();
+    await dbSave('banking',id,b);
+    showSt('a-st','✅ تم الحفظ','ok');rBanking();setTimeout(cM,900);
+  };
+  document.getElementById('addM').classList.add('open');
+}
+
+// ── ACCESS ──
+async function addEd(){
+  const name=document.getElementById('new-ed').value.trim(),st=document.getElementById('ac-status');
+  if(!name){showSt('ac-status','يرجى إدخال اسم','er');return}
+  const entry={name,ts:Date.now()};
+  if(db){
+    try{const id='ed_'+Date.now();await db.collection('editors').doc(id).set(entry);editors.push({id,...entry});rEds();document.getElementById('new-ed').value='';showSt('ac-status','✅ تمت الإضافة — سيظهر له وضع التعديل عند فتح الرابط بحسابه','ok')}
+    catch(e){showSt('ac-status','❌ '+e.message,'er')}
+  }
+}
+async function rmEd(id){
+  if(!confirm('إزالة المحرر؟'))return;
+  if(db){try{await db.collection('editors').doc(id).delete()}catch(e){}}
+  editors=editors.filter(e=>e.id!==id);rEds();
+}
+function rEds(){
+  const el=document.getElementById('ac-list');if(!el)return;
+  el.innerHTML=editors.length?editors.map(e=>`<div class="slb"><span class="rb r-edt">Editor</span><span class="ln">${e.name||'—'}</span>${role==='admin'?`<button class="btn btn-red" style="font-size:11px;padding:2px 8px" onclick="rmEd('${e.id}')">إزالة</button>`:''}</div>`).join(''):`<p style="font-size:12px;color:var(--dim)">لا يوجد محررون بعد</p>`;
+}
+
+// ── SEARCH ──
+const TT={ov:'نظرة عامة',ql:'معايير الجودة',pr:'البروسيسات',br:'الفروع',wh:'الموزعين',in:'معلومات المنتج',px:'الأسعار',bk:'البيانات البنكية',cm:'ردود الكومنتات',mg:'تعديل المحتوى',ac:'إدارة الوصول',sr:'نتائج البحث'};
+function go(id){
+  document.querySelectorAll('.sp').forEach(p=>p.classList.remove('active'));
+  const p=document.getElementById('p-'+id);if(p)p.classList.add('active');
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active')});
+  document.getElementById('pgT').textContent=TT[id]||id;cSB();
+}
+function doS(q){
+  q=q.trim();if(!q)return;
+  const ql=q.toLowerCase();let res=[];
+  const c=(t,l,s)=>{if((t||'').toLowerCase().includes(ql))res.push({l,t:t.substring(0,170),s})};
+  PROCESSES.forEach(p=>c(p.t+' '+p.b,p.t,'pr'));
+  INFO_QA.forEach(it=>c(it.q+' '+it.a,it.q,'in'));
+  COMMENTS.forEach(cm=>c(cm.q+' '+(cm.r||''),cm.q,'cm'));
+  BRANCHES.forEach(b=>c(b.n+' '+b.a,b.n,'br'));
+  WHOLESALE.forEach(w=>c(w.n+' '+w.a+' '+w.g,w.n,'wh'));
+  document.getElementById('sr-lbl').textContent=res.length+' نتيجة لـ "'+q+'"';
+  document.getElementById('sr-list').innerHTML=res.length?res.map(r=>`<div class="item-row" style="cursor:pointer" onclick="go('${r.s}');document.getElementById('gs').value=''"><div class="item-header"><div class="ih-main"><div class="ih-title">📄 ${hl(r.l,q)} <small style="color:var(--gold);font-size:10px">${TT[r.s]||r.s}</small></div><div class="ih-body" style="display:block">${hl(r.t,q).replace(/\n/g,'<br>')}</div></div></div></div>`).join(''):`<div style="text-align:center;padding:40px;color:var(--dim)">🔍 لا توجد نتائج</div>`;
+  go('sr');
+}
+function hl(t,q){return(t||'').replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="hl2">$1</span>')}
+
+// ── HELPERS ──
+function showSt(id,msg,type){const el=document.getElementById(id);el.className='sm sm-'+type;el.textContent=msg;el.style.display='block'}
+function cM(){
+  document.getElementById('addM').classList.remove('open');
+  document.getElementById('sec-row').style.display='block';
+  document.getElementById('note-row').style.display='block';
+  document.getElementById('modal-save-btn').onclick=svE;
+}
+function oShare(){document.getElementById('shrM').classList.add('open')}
+function cpLink(){const u=window.location.href;navigator.clipboard?navigator.clipboard.writeText(u).then(()=>alert('✅ تم نسخ الرابط!')):prompt('انسخ الرابط:',u)}
+function tSB(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbo').classList.toggle('open')}
+function cSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbo').classList.remove('open')}
+window.addEventListener('load',init);
+</script>
+</body>
+</html>
