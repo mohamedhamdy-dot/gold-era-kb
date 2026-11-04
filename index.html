@@ -13,9 +13,9 @@
   --green:#4CAF7A;--red:#CF6679;--blue:#5B8FC9;--sw:270px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden}
-#app{display:flex;height:100vh}
-#sidebar{width:var(--sw);flex-shrink:0;background:var(--bg2);border-left:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden;transition:transform .25s;z-index:10}
+html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt)}
+#app{display:flex;height:100vh;overflow:hidden}
+#sidebar{width:var(--sw);flex-shrink:0;background:var(--bg2);border-left:1px solid var(--brd);display:flex;flex-direction:column;overflow:hidden;transition:transform .25s;z-index:10;position:relative}
 #main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
 #hero-bg{position:absolute;inset:0;background-repeat:no-repeat;background-position:center 38%;background-size:40%;opacity:.03;pointer-events:none;z-index:0;filter:grayscale(1) brightness(3)}
 #content{position:relative;z-index:1;flex:1;overflow-y:auto;padding:22px}
@@ -212,7 +212,7 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:
 
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
 @media(max-width:768px){
-  #sidebar{position:fixed;right:0;top:0;bottom:0;transform:translateX(100%)}
+  #sidebar{position:fixed;right:0;top:0;bottom:0;z-index:50;transform:translateX(100%)}
   #sidebar.open{transform:translateX(0);box-shadow:-6px 0 24px rgba(0,0,0,.5)}
   #mtoggle{display:flex}.qgr{grid-template-columns:1fr}.cg{grid-template-columns:1fr}
 }
@@ -227,15 +227,32 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:
 
 <!-- SIDEBAR -->
 <div id="sidebar">
-  <div class="logo-wrap" style="padding:14px 14px 12px;background:linear-gradient(150deg,#0e0b00,#111);border-bottom:1px solid var(--brd)">
+  <div class="logo-wrap" style="padding:12px 14px;background:linear-gradient(150deg,#0e0b00,#111);border-bottom:1px solid var(--brd)">
     <div class="ge-logo">
-      <img class="ge-icon-img" alt="Gold Era">
+      <svg width="46" height="46" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gldA" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F0D060"/>
+      <stop offset="45%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#7A5C1E"/>
+    </linearGradient>
+    <linearGradient id="silvA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#d0d0d0"/>
+      <stop offset="100%" stop-color="#aaaaaa"/>
+    </linearGradient>
+  </defs>
+  <!-- E bars: white/silver parallelograms -->
+  <polygon points="54,5 96,5 91,16 49,16" fill="url(#silvA)"/>
+  <polygon points="57,42 92,42 87,53 52,53" fill="url(#silvA)"/>
+  <polygon points="55,78 95,78 90,89 50,89" fill="url(#silvA)"/>
+  <!-- G shape in gold (overlaps left part of bars) -->
+  <path d="M40 7 C18 7 4 23 4 48 C4 73 18 90 40 90 C53 90 62 84 68 75 L68 50 L44 50 L44 63 L56 63 C53 69 48 78 40 78 C25 78 16 64 16 48 C16 32 25 18 40 18 C49 18 55 22 60 30 L71 20 C64 12 53 7 40 7Z" fill="url(#gldA)"/>
+</svg>
       <div class="ge-text-wrap">
         <div class="ge-brand">Gold Era</div>
         <div class="ge-sub">Knowledge Base · Egypt</div>
       </div>
-    </div>
-    </div>
     </div>
   </div>
   <div class="srch">
@@ -268,9 +285,23 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:
   <div id="hero-bg"></div>
   <div id="topbar">
     <button id="mtoggle" onclick="tSB()">☰</button>
-    <div class="tb-ge-logo">
-      <img class="tb-ge-icon-img" alt="GE">
-      <div class="tb-ge-text">Gold Era</div>
+    <div class="tb-ge-logo"><svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gldB" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F0D060"/>
+      <stop offset="45%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#7A5C1E"/>
+    </linearGradient>
+    <linearGradient id="silvB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#aaaaaa"/>
+    </linearGradient>
+  </defs>
+  <polygon points="54,5 96,5 91,16 49,16" fill="url(#silvB)"/>
+  <polygon points="57,42 92,42 87,53 52,53" fill="url(#silvB)"/>
+  <polygon points="55,78 95,78 90,89 50,89" fill="url(#silvB)"/>
+  <path d="M40 7 C18 7 4 23 4 48 C4 73 18 90 40 90 C53 90 62 84 68 75 L68 50 L44 50 L44 63 L56 63 C53 69 48 78 40 78 C25 78 16 64 16 48 C16 32 25 18 40 18 C49 18 55 22 60 30 L71 20 C64 12 53 7 40 7Z" fill="url(#gldB)"/>
+</svg><div class="tb-ge-text">Gold Era</div></div>
     </div>
     </div>
     <div class="pg-title" id="pgT">نظرة عامة</div>
@@ -288,9 +319,25 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:
       <div id="guest-notice" class="notice"><span>👁️</span><span>أنت تشاهد الـ KB — يمكنك تصفح جميع المحتوى بحرية بدون تسجيل</span></div>
       <div id="edit-mode-bar"><span>✏️</span><span style="flex:1;font-weight:700;color:var(--gold)">وضع التعديل مفعّل</span><span style="font-size:11px;color:var(--dim)">ستظهر أزرار التعديل والحذف على كل عنصر</span></div>
       <div class="hero">
-        <div class="hero-logo-wrap" style="width:90px;height:90px;flex-shrink:0;display:flex;align-items:center;justify-content:center">
-          <img class="hero-icon-img" alt="Gold Era" style="width:90px;height:90px;object-fit:cover;border-radius:12px">
-        </div>
+        <div class="hero-logo-wrap" style="flex-shrink:0"><svg width="90" height="100" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gldC" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F0D060"/>
+      <stop offset="45%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#7A5C1E"/>
+    </linearGradient>
+    <linearGradient id="silvC" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#d8d8d8"/>
+      <stop offset="100%" stop-color="#aaaaaa"/>
+    </linearGradient>
+  </defs>
+  <polygon points="54,5 96,5 91,16 49,16" fill="url(#silvC)"/>
+  <polygon points="57,42 92,42 87,53 52,53" fill="url(#silvC)"/>
+  <polygon points="55,78 95,78 90,89 50,89" fill="url(#silvC)"/>
+  <path d="M40 7 C18 7 4 23 4 48 C4 73 18 90 40 90 C53 90 62 84 68 75 L68 50 L44 50 L44 63 L56 63 C53 69 48 78 40 78 C25 78 16 64 16 48 C16 32 25 18 40 18 C49 18 55 22 60 30 L71 20 C64 12 53 7 40 7Z" fill="url(#gldC)"/>
+  <text x="50" y="106" text-anchor="middle" fill="url(#gldC)" font-family="Cairo,sans-serif" font-size="10" font-weight="900" letter-spacing="4">GOLD ERA</text>
+</svg></div>
         <div class="hero-txt">
           <h1>Gold Era Egypt</h1>
           <p>مرجع خدمة العملاء الداخلي الشامل<br>جميع المعلومات والإجراءات في مكان واحد</p>
@@ -534,9 +581,8 @@ html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:
 
 <script>
 // ── LOGO ──
-const LOGO="";
-['sb-logo','tb-logo','hero-logo'].forEach(id=>{const el=document.getElementById(id);if(el)el.src=LOGO});
-document.getElementById('hero-bg').style.backgroundImage='url("'+LOGO+'")';
+
+
 
 // ── BASE DATA (mutable arrays) ──
 let BRANCHES=[
@@ -669,483 +715,40 @@ let editingId=null,editingType=null,priceCb=null;
 async function init(){
   rAll();
   const url=window.location.href;
-  ['share-url','shr-url'].forEach(id=>document.getElementById(id).textContent=url);
+  ['share-url','shr-url'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=url});
+
+  // Try Claude runtime (works on claude.ai) - graceful fallback for GitHub/other hosts
   try{
-    if(window.claude){
-      [db,uCap]=await Promise.all([claude.use('db'),claude.use('user')]);
-      currentUser=await uCap.getUser();
-      await loadFromDB();
-      await loadEds();
-      await chkRole();
-      updUI();
-      document.getElementById('su-lbl').textContent='👤 '+(currentUser.name||currentUser.id||'');
+    if(window.claude && typeof window.claude.use === 'function'){
+      const results = await Promise.allSettled([claude.use('db'),claude.use('user')]);
+      if(results[0].status==='fulfilled') db=results[0].value;
+      if(results[1].status==='fulfilled') uCap=results[1].value;
+
+      if(uCap){
+        currentUser=await uCap.getUser();
+        await loadFromDB();
+        await loadEds();
+        await chkRole();
+        updUI();
+        document.getElementById('su-lbl').textContent='👤 '+(currentUser.name||currentUser.id||'');
+      }
+    } else {
+      // GitHub / no runtime — viewer mode, everything readable
+      showGuestMode();
     }
   }catch(e){
-    document.getElementById('guest-notice').classList.add('show');
+    console.log('Runtime not available, running in viewer mode');
+    showGuestMode();
   }
 }
-async function loadFromDB(){
-  if(!db)return;
-  try{
-    // Load all overrides from DB
-    const cols=['branches','processes','info_qa','comments','wholesale','spike_prices','coin_prices','bm_prices','cib_prices','dl_prices','banking'];
-    for(const col of cols){
-      const snap=await db.collection(col).get();
-      if(!snap.empty){
-        const data=snap.docs.map(d=>({id:d.id,...d.data()}));
-        if(col==='branches')BRANCHES=data;
-        else if(col==='processes')PROCESSES=data;
-        else if(col==='info_qa')INFO_QA=data;
-        else if(col==='comments')COMMENTS=data;
-        else if(col==='wholesale')WHOLESALE=data;
-        else if(col==='spike_prices')SPIKE_PRICES=data;
-        else if(col==='coin_prices')COIN_PRICES=data;
-        else if(col==='bm_prices')BM_PRICES=data;
-        else if(col==='cib_prices')CIB_PRICES=data;
-        else if(col==='dl_prices')DL_PRICES=data;
-        else if(col==='banking')BANKING=data;
-      }
-    }
-    rAll();
-  }catch(e){console.log('DB load',e)}
-}
-async function loadEds(){
-  if(!db)return;
-  try{const s=await db.collection('editors').get();editors=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}
-}
-async function chkRole(){
-  if(!currentUser||!db)return;
-  const uid=currentUser.id,uname=(currentUser.name||'').toLowerCase();
-  try{
-    const a=await db.collection('admins').doc('list').get();
-    if(a.exists){if((a.data().ids||[]).includes(uid)){role='admin';return}}
-    else{await db.collection('admins').doc('list').set({ids:[uid]});role='admin';return}
-  }catch(e){}
-  if(editors.find(e=>e.uid===uid||(e.name&&e.name.toLowerCase()===uname)))role='editor';
-}
-function updUI(){
-  const canEdit=role==='admin'||role==='editor';
-  document.getElementById('btn-add').style.display=canEdit?'inline-flex':'none';
-  document.getElementById('edit-toggle-btn').classList.toggle('show',canEdit);
-  document.getElementById('admin-sec').style.display=role==='admin'?'block':'none';
-  document.getElementById('guest-notice').classList.remove('show');
+
+function showGuestMode(){
+  const notice=document.getElementById('guest-notice');
+  if(notice)notice.classList.add('show');
+  // Make sure content is visible even without runtime
+  document.querySelectorAll('.sp').forEach(el=>{});
 }
 
-// ── EDIT MODE ──
-function toggleEditMode(){
-  if(role==='viewer'){alert('🔒 أنت تشاهد فقط');return}
-  editModeOn=!editModeOn;
-  document.body.classList.toggle('edit-mode',editModeOn);
-  const btn=document.getElementById('edit-toggle-btn');
-  btn.textContent=editModeOn?'✅ إيقاف التعديل':'✏️ وضع التعديل';
-  btn.className=editModeOn?'btn btn-g show':'btn btn-blue show';
-  document.getElementById('edit-mode-bar').classList.toggle('show',editModeOn);
-  // Show/hide edit-toggle elements
-  document.querySelectorAll('.edit-toggle').forEach(el=>{
-    if(el.classList.contains('show')||el.id==='edit-toggle-btn')return;
-    el.style.display=editModeOn?'inline-flex':'none';
-  });
-  // Refresh wholesale table header
-  const whTh=document.querySelector('#p-wh table thead tr th:last-child');
-  if(whTh)whTh.style.display=editModeOn?'':'none';
-  rAll();
-}
-function enableEditMode(){
-  if(!editModeOn&&(role==='admin'||role==='editor'))toggleEditMode();
-}
-
-// ── DB SAVE ──
-async function dbSave(col,id,data){
-  if(!db)return;
-  try{await db.collection(col).doc(id).set(data)}catch(e){console.log(e)}
-}
-async function dbDel(col,id){
-  if(!db)return;
-  try{await db.collection(col).doc(id).delete()}catch(e){console.log(e)}
-}
-async function dbSaveAll(col,arr){
-  if(!db)return;
-  // batch write
-  for(const item of arr){await dbSave(col,item.id,item)}
-}
-
-// ── RENDER ──
-function rAll(){rBr();rWh();rPrices();rProc();rIn();rCm();rBanking();updateStats()}
-function updateStats(){
-  document.getElementById('stat-br').textContent=BRANCHES.length;
-  document.getElementById('stat-wh').textContent=WHOLESALE.length+'+';
-}
-
-function editBtns(onEdit,onDel){
-  return `<div style="display:flex;gap:4px;flex-shrink:0">
-    <button class="btn btn-blue" style="padding:3px 8px;font-size:11px" onclick="${onEdit}">✏️</button>
-    <button class="btn btn-red" style="padding:3px 8px;font-size:11px" onclick="${onDel}">🗑️</button>
-  </div>`;
-}
-
-function rProc(){
-  document.getElementById('proc-list').innerHTML=PROCESSES.map((p,i)=>`
-    <div class="ps">
-      <div class="sn">${i+1}</div>
-      <div class="ps-body"><strong>${p.t}</strong>${(p.b||'').replace(/\n/g,'<br>')}</div>
-      <div class="ps-actions">${editBtns(`editItem('process','${p.id}')`,`delItem('process','${p.id}')`)}</div>
-    </div>`).join('');
-}
-
-function rIn(){
-  document.getElementById('in-list').innerHTML=INFO_QA.map(it=>`
-    <div class="item-row">
-      <div class="item-header">
-        <div class="ih-main" onclick="this.closest('.item-row').classList.toggle('open')">
-          <div class="ih-title">❓ ${it.q||it.t}</div>
-          <div class="ih-body">${(it.a||it.r||'').replace(/\n/g,'<br>')}${it.n?`<div class="item-note">💡 ${it.n}</div>`:''}</div>
-        </div>
-        <span class="ih-arrow" onclick="this.closest('.item-row').classList.toggle('open')">▼</span>
-        <div class="item-actions">${editBtns(`editItem('info','${it.id}')`,`delItem('info','${it.id}')`)}</div>
-      </div>
-    </div>`).join('');
-}
-
-function rCm(){
-  document.getElementById('cm-list').innerHTML=COMMENTS.map(it=>`
-    <div class="item-row">
-      <div class="item-header">
-        <div class="ih-main" onclick="this.closest('.item-row').classList.toggle('open')">
-          <div class="ih-title">💬 ${it.q}</div>
-          <div class="ih-body">${(it.r||'').replace(/\n/g,'<br>')}${it.n?`<div class="item-note">💡 ${it.n}</div>`:''}</div>
-        </div>
-        <span class="ih-arrow" onclick="this.closest('.item-row').classList.toggle('open')">▼</span>
-        <div class="item-actions">${editBtns(`editItem('comment','${it.id}')`,`delItem('comment','${it.id}')`)}</div>
-      </div>
-    </div>`).join('');
-}
-
-function rBr(){
-  document.getElementById('br-list').innerHTML=BRANCHES.map(b=>`
-    <div class="bc">
-      <div class="bc-actions">${editBtns(`editBranch('${b.id}')`,`delBranch('${b.id}')`)}</div>
-      <div class="bn">📍 ${b.n} <span class="gb">${b.c}</span></div>
-      <div class="ba">${b.a}</div>
-      <div class="bh"><strong>⏰</strong><br>${b.h.replace(/\n/g,'<br>')}</div>
-      ${b.m?`<a class="ml" href="${b.m}" target="_blank">🗺️ فتح الخريطة</a>`:''}
-    </div>`).join('');
-}
-
-function rWh(f=''){
-  const govs=new Set();
-  document.getElementById('wb').innerHTML=WHOLESALE.filter(d=>!f||d.g===f).map(d=>{govs.add(d.g);return`
-    <tr>
-      <td><strong>${d.n}</strong></td><td>${d.a}</td>
-      <td><a href="tel:0${d.p}" style="color:var(--gold)">0${d.p}</a></td>
-      <td><span class="gb">${d.g}</span></td><td>${d.ar}</td>
-      <td style="display:${editModeOn?'':'none'}">
-        <div style="display:flex;gap:4px">${editBtns(`editWholesale('${d.id}')`,`delWholesale('${d.id}')`)}</div>
-      </td>
-    </tr>`}).join('');
-  const sel=document.getElementById('gf');
-  if(sel.options.length===1)[...govs].sort().forEach(g=>{const o=new Option(g,g);sel.add(o)});
-}
-function fW(v){rWh(v)}
-
-function priceRow(item,col,label){
-  const val=item.p!==undefined?item.p:item.m;
-  const unit=item.m!==undefined?' ج/جرام':'';
-  return `<div class="pr">
-    <span class="wt">${label||item.w||item.a||item.m}</span>
-    <div class="price-editable">
-      <span class="am">${val}${unit}</span>
-      <button class="btn btn-blue price-edit-btn" style="padding:2px 7px;font-size:11px" onclick="editPrice('${col}','${item.id}','${label||item.w||item.a||item.m}')">✏️</button>
-    </div>
-  </div>`;
-}
-
-function rPrices(){
-  document.getElementById('sp-prices').innerHTML=
-    SPIKE_PRICES.map(p=>priceRow(p,'spike_prices')).join('')+
-    `<div style="padding:9px 12px;font-size:11px;color:var(--dim)">✦ غلاف مغلق: 28 ج/جرام &nbsp;|&nbsp; ✦ بدون غلاف: 11 ج/جرام</div>`;
-  document.getElementById('coins-list').innerHTML=COIN_PRICES.map(p=>priceRow(p,'coin_prices')).join('');
-  document.getElementById('bm-prices').innerHTML=BM_PRICES.map(p=>`
-    <div class="pr"><span class="wt">${p.m}</span><div class="price-editable"><span class="am">${p.p}</span>
-    <button class="btn btn-blue price-edit-btn" style="padding:2px 7px;font-size:11px" onclick="editBMPrice('${p.id}','${p.m}')">✏️</button></div></div>`).join('');
-  document.getElementById('cib-prices').innerHTML=CIB_PRICES.map(p=>`
-    <div class="pr"><span class="wt">${p.m}</span><div class="price-editable"><span class="am">${p.p}</span>
-    <button class="btn btn-blue price-edit-btn" style="padding:2px 7px;font-size:11px" onclick="editCIBPrice('${p.id}','${p.m}')">✏️</button></div></div>`).join('')+
-    `<div style="padding:9px 12px;font-size:11px;color:var(--dim)">مقدم 0 — فائدة 0 — يُضاف على الإجمالي</div>`;
-  document.getElementById('dl-prices').innerHTML=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;padding:4px 0">${
-    DL_PRICES.map(p=>`<div class="pr" style="background:var(--bg3);border-radius:7px;margin:0;padding:7px 10px">
-      <span class="wt" style="font-size:11.5px">${p.a}</span>
-      <div class="price-editable"><span class="am">${p.p} ج</span>
-      <button class="btn btn-blue price-edit-btn" style="padding:1px 5px;font-size:10px" onclick="editDLPrice('${p.id}','${p.a}')">✏️</button></div>
-    </div>`).join('')}</div>`;
-}
-
-function rBanking(){
-  document.getElementById('banking-list').innerHTML=BANKING.map(b=>`
-    <div class="bb">
-      <button class="btn btn-blue bb-edit-btn" style="padding:3px 8px;font-size:11px" onclick="editBanking('${b.id}')">✏️ تعديل</button>
-      <div class="bbn">🏦 ${b.name}</div>
-      ${b.details.split('\n').map(l=>`<div>${l.replace(/([A-Z0-9]+):/g,'<strong>$1:</strong>').replace(/([A-Z]{2,}\d+)/g,'<code>$1</code>')}</div>`).join('')}
-    </div>`).join('');
-}
-
-// ── EDIT ITEMS (process/info/comment) ──
-function editItem(type,id){
-  const map={process:PROCESSES,info:INFO_QA,comment:COMMENTS};
-  const col={process:'processes',info:'info_qa',comment:'comments'};
-  const arr=map[type];const item=arr.find(x=>x.id===id);if(!item)return;
-  editingId=id;editingType=type;
-  document.getElementById('modal-h').textContent='تعديل';
-  document.getElementById('sec-row').style.display='none';
-  document.getElementById('a-ttl').value=item.t||item.q||'';
-  document.getElementById('a-bdy').value=item.b||item.a||item.r||'';
-  document.getElementById('a-nt').value=item.n||'';
-  document.getElementById('a-st').style.display='none';
-  document.getElementById('modal-save-btn').onclick=()=>updateItem(type,id,col[type]);
-  document.getElementById('addM').classList.add('open');
-}
-async function updateItem(type,id,col){
-  const map={process:PROCESSES,info:INFO_QA,comment:COMMENTS};
-  const arr=map[type];const idx=arr.findIndex(x=>x.id===id);if(idx<0)return;
-  const ttl=document.getElementById('a-ttl').value.trim();
-  const bdy=document.getElementById('a-bdy').value.trim();
-  const nt=document.getElementById('a-nt').value.trim();
-  if(!ttl||!bdy){showSt('a-st','يرجى ملء الحقول','er');return}
-  if(type==='process'){arr[idx]={...arr[idx],t:ttl,b:bdy}}
-  else if(type==='info'){arr[idx]={...arr[idx],q:ttl,a:bdy,n:nt}}
-  else if(type==='comment'){arr[idx]={...arr[idx],q:ttl,r:bdy,n:nt}}
-  await dbSave(col,id,arr[idx]);
-  rAll();cM();
-}
-async function delItem(type,id){
-  if(!confirm('حذف هذا العنصر نهائياً؟'))return;
-  const map={process:PROCESSES,info:INFO_QA,comment:COMMENTS};
-  const col={process:'processes',info:'info_qa',comment:'comments'};
-  map[type]=map[type].filter(x=>x.id!==id);
-  if(type==='process')PROCESSES=map[type];
-  else if(type==='info')INFO_QA=map[type];
-  else if(type==='comment')COMMENTS=map[type];
-  await dbDel(col[type],id);
-  rAll();
-}
-
-// ── ADD ITEM ──
-function oAdd(sec){
-  if(role==='viewer'){alert('🔒 تسجيل الدخول مطلوب للتعديل');return}
-  editingId=null;editingType=null;
-  document.getElementById('modal-h').textContent='إضافة';
-  document.getElementById('sec-row').style.display='block';
-  if(sec)document.getElementById('a-sec').value=sec;
-  ['a-ttl','a-bdy','a-nt'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('a-st').style.display='none';
-  document.getElementById('modal-save-btn').onclick=svE;
-  document.getElementById('addM').classList.add('open');
-}
-async function svE(){
-  const sec=document.getElementById('a-sec').value;
-  const ttl=document.getElementById('a-ttl').value.trim();
-  const bdy=document.getElementById('a-bdy').value.trim();
-  const nt=document.getElementById('a-nt').value.trim();
-  if(!ttl||!bdy){showSt('a-st','يرجى ملء الحقول','er');return}
-  const id='new_'+Date.now();
-  if(sec==='process'){const item={id,t:ttl,b:bdy};PROCESSES.push(item);await dbSave('processes',id,item)}
-  else if(sec==='info'){const item={id,q:ttl,a:bdy,n:nt};INFO_QA.push(item);await dbSave('info_qa',id,item)}
-  else if(sec==='comment'){const item={id,q:ttl,r:bdy,n:nt};COMMENTS.push(item);await dbSave('comments',id,item)}
-  showSt('a-st','✅ تم الحفظ','ok');rAll();setTimeout(cM,900);
-}
-
-// ── BRANCHES ──
-let editingBranchId=null;
-function oAddBranch(){
-  editingBranchId=null;
-  document.getElementById('branch-modal-h').textContent='إضافة فرع';
-  ['br-name','br-addr','br-hours','br-city','br-map'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('br-st').style.display='none';
-  document.getElementById('branchM').classList.add('open');
-}
-function editBranch(id){
-  const b=BRANCHES.find(x=>x.id===id);if(!b)return;
-  editingBranchId=id;
-  document.getElementById('branch-modal-h').textContent='تعديل الفرع';
-  document.getElementById('br-name').value=b.n;
-  document.getElementById('br-addr').value=b.a;
-  document.getElementById('br-hours').value=b.h;
-  document.getElementById('br-city').value=b.c;
-  document.getElementById('br-map').value=b.m||'';
-  document.getElementById('br-st').style.display='none';
-  document.getElementById('branchM').classList.add('open');
-}
-async function svBranch(){
-  const n=document.getElementById('br-name').value.trim();
-  const a=document.getElementById('br-addr').value.trim();
-  if(!n||!a){showSt('br-st','يرجى ملء الاسم والعنوان','er');return}
-  const item={n,a,h:document.getElementById('br-hours').value.trim(),c:document.getElementById('br-city').value.trim(),m:document.getElementById('br-map').value.trim()};
-  if(editingBranchId){
-    const idx=BRANCHES.findIndex(x=>x.id===editingBranchId);
-    BRANCHES[idx]={...BRANCHES[idx],...item};
-    await dbSave('branches',editingBranchId,BRANCHES[idx]);
-  }else{
-    const id='br_'+Date.now();const full={id,...item};
-    BRANCHES.push(full);await dbSave('branches',id,full);
-  }
-  showSt('br-st','✅ تم الحفظ','ok');rAll();setTimeout(()=>document.getElementById('branchM').classList.remove('open'),900);
-}
-async function delBranch(id){
-  if(!confirm('حذف هذا الفرع نهائياً؟'))return;
-  BRANCHES=BRANCHES.filter(x=>x.id!==id);await dbDel('branches',id);rAll();
-}
-
-// ── WHOLESALE ──
-let editingWHId=null;
-function oAddWholesale(){
-  editingWHId=null;
-  document.getElementById('wh-modal-h').textContent='إضافة موزع';
-  ['wh-name','wh-addr','wh-phone','wh-gov','wh-area'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('wh-st').style.display='none';
-  document.getElementById('wholesaleM').classList.add('open');
-}
-function editWholesale(id){
-  const w=WHOLESALE.find(x=>x.id===id);if(!w)return;
-  editingWHId=id;
-  document.getElementById('wh-modal-h').textContent='تعديل الموزع';
-  document.getElementById('wh-name').value=w.n;
-  document.getElementById('wh-addr').value=w.a;
-  document.getElementById('wh-phone').value=w.p;
-  document.getElementById('wh-gov').value=w.g;
-  document.getElementById('wh-area').value=w.ar;
-  document.getElementById('wh-st').style.display='none';
-  document.getElementById('wholesaleM').classList.add('open');
-}
-async function svWholesale(){
-  const n=document.getElementById('wh-name').value.trim();if(!n){showSt('wh-st','يرجى إدخال الاسم','er');return}
-  const item={n,a:document.getElementById('wh-addr').value.trim(),p:document.getElementById('wh-phone').value.trim(),g:document.getElementById('wh-gov').value.trim(),ar:document.getElementById('wh-area').value.trim()};
-  if(editingWHId){
-    const idx=WHOLESALE.findIndex(x=>x.id===editingWHId);
-    WHOLESALE[idx]={...WHOLESALE[idx],...item};await dbSave('wholesale',editingWHId,WHOLESALE[idx]);
-  }else{
-    const id='wh_'+Date.now();const full={id,...item};WHOLESALE.push(full);await dbSave('wholesale',id,full);
-  }
-  showSt('wh-st','✅ تم الحفظ','ok');rAll();setTimeout(()=>document.getElementById('wholesaleM').classList.remove('open'),900);
-}
-async function delWholesale(id){
-  if(!confirm('حذف هذا الموزع نهائياً؟'))return;
-  WHOLESALE=WHOLESALE.filter(x=>x.id!==id);await dbDel('wholesale',id);rAll();
-}
-
-// ── PRICES ──
-let priceEditTarget=null;
-function openPriceModal(title,currentVal,cb){
-  document.getElementById('price-modal-h').textContent='تعديل: '+title;
-  document.getElementById('price-val').value=currentVal;
-  document.getElementById('price-st').style.display='none';
-  priceEditTarget=cb;
-  document.getElementById('priceM').classList.add('open');
-}
-async function svPrice(){
-  const val=document.getElementById('price-val').value.trim();
-  if(!val){showSt('price-st','يرجى إدخال القيمة','er');return}
-  if(priceEditTarget)await priceEditTarget(val);
-  showSt('price-st','✅ تم الحفظ','ok');rAll();setTimeout(()=>document.getElementById('priceM').classList.remove('open'),800);
-}
-function editPrice(col,id,label){
-  const arr=col==='spike_prices'?SPIKE_PRICES:COIN_PRICES;
-  const item=arr.find(x=>x.id===id);if(!item)return;
-  openPriceModal(label,item.m,async(v)=>{item.m=Number(v);await dbSave(col,id,item)});
-}
-function editDLPrice(id,label){
-  const item=DL_PRICES.find(x=>x.id===id);if(!item)return;
-  openPriceModal(label,item.p,async(v)=>{item.p=Number(v);await dbSave('dl_prices',id,item)});
-}
-function editBMPrice(id,label){
-  const item=BM_PRICES.find(x=>x.id===id);if(!item)return;
-  document.getElementById('price-modal-h').textContent='تعديل: '+label;
-  document.getElementById('price-val').value=item.p;
-  document.getElementById('price-st').style.display='none';
-  priceEditTarget=async(v)=>{item.p=v;await dbSave('bm_prices',id,item)};
-  document.getElementById('priceM').classList.add('open');
-}
-function editCIBPrice(id,label){
-  const item=CIB_PRICES.find(x=>x.id===id);if(!item)return;
-  document.getElementById('price-modal-h').textContent='تعديل: '+label;
-  document.getElementById('price-val').value=item.p;
-  document.getElementById('price-st').style.display='none';
-  priceEditTarget=async(v)=>{item.p=v;await dbSave('cib_prices',id,item)};
-  document.getElementById('priceM').classList.add('open');
-}
-
-// ── BANKING ──
-function editBanking(id){
-  const b=BANKING.find(x=>x.id===id);if(!b)return;
-  document.getElementById('modal-h').textContent='تعديل البيانات البنكية';
-  document.getElementById('sec-row').style.display='none';
-  document.getElementById('a-ttl').value=b.name;
-  document.getElementById('a-bdy').value=b.details;
-  document.getElementById('note-row').style.display='none';
-  document.getElementById('a-st').style.display='none';
-  document.getElementById('modal-save-btn').onclick=async()=>{
-    b.name=document.getElementById('a-ttl').value.trim();
-    b.details=document.getElementById('a-bdy').value.trim();
-    await dbSave('banking',id,b);
-    showSt('a-st','✅ تم الحفظ','ok');rBanking();setTimeout(cM,900);
-  };
-  document.getElementById('addM').classList.add('open');
-}
-
-// ── ACCESS ──
-async function addEd(){
-  const name=document.getElementById('new-ed').value.trim(),st=document.getElementById('ac-status');
-  if(!name){showSt('ac-status','يرجى إدخال اسم','er');return}
-  const entry={name,ts:Date.now()};
-  if(db){
-    try{const id='ed_'+Date.now();await db.collection('editors').doc(id).set(entry);editors.push({id,...entry});rEds();document.getElementById('new-ed').value='';showSt('ac-status','✅ تمت الإضافة — سيظهر له وضع التعديل عند فتح الرابط بحسابه','ok')}
-    catch(e){showSt('ac-status','❌ '+e.message,'er')}
-  }
-}
-async function rmEd(id){
-  if(!confirm('إزالة المحرر؟'))return;
-  if(db){try{await db.collection('editors').doc(id).delete()}catch(e){}}
-  editors=editors.filter(e=>e.id!==id);rEds();
-}
-function rEds(){
-  const el=document.getElementById('ac-list');if(!el)return;
-  el.innerHTML=editors.length?editors.map(e=>`<div class="slb"><span class="rb r-edt">Editor</span><span class="ln">${e.name||'—'}</span>${role==='admin'?`<button class="btn btn-red" style="font-size:11px;padding:2px 8px" onclick="rmEd('${e.id}')">إزالة</button>`:''}</div>`).join(''):`<p style="font-size:12px;color:var(--dim)">لا يوجد محررون بعد</p>`;
-}
-
-// ── SEARCH ──
-const TT={ov:'نظرة عامة',ql:'معايير الجودة',pr:'البروسيسات',br:'الفروع',wh:'الموزعين',in:'معلومات المنتج',px:'الأسعار',bk:'البيانات البنكية',cm:'ردود الكومنتات',mg:'تعديل المحتوى',ac:'إدارة الوصول',sr:'نتائج البحث'};
-function go(id){
-  document.querySelectorAll('.sp').forEach(p=>p.classList.remove('active'));
-  const p=document.getElementById('p-'+id);if(p)p.classList.add('active');
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active')});
-  document.getElementById('pgT').textContent=TT[id]||id;cSB();
-}
-function doS(q){
-  q=q.trim();if(!q)return;
-  const ql=q.toLowerCase();let res=[];
-  const c=(t,l,s)=>{if((t||'').toLowerCase().includes(ql))res.push({l,t:t.substring(0,170),s})};
-  PROCESSES.forEach(p=>c(p.t+' '+p.b,p.t,'pr'));
-  INFO_QA.forEach(it=>c(it.q+' '+it.a,it.q,'in'));
-  COMMENTS.forEach(cm=>c(cm.q+' '+(cm.r||''),cm.q,'cm'));
-  BRANCHES.forEach(b=>c(b.n+' '+b.a,b.n,'br'));
-  WHOLESALE.forEach(w=>c(w.n+' '+w.a+' '+w.g,w.n,'wh'));
-  document.getElementById('sr-lbl').textContent=res.length+' نتيجة لـ "'+q+'"';
-  document.getElementById('sr-list').innerHTML=res.length?res.map(r=>`<div class="item-row" style="cursor:pointer" onclick="go('${r.s}');document.getElementById('gs').value=''"><div class="item-header"><div class="ih-main"><div class="ih-title">📄 ${hl(r.l,q)} <small style="color:var(--gold);font-size:10px">${TT[r.s]||r.s}</small></div><div class="ih-body" style="display:block">${hl(r.t,q).replace(/\n/g,'<br>')}</div></div></div></div>`).join(''):`<div style="text-align:center;padding:40px;color:var(--dim)">🔍 لا توجد نتائج</div>`;
-  go('sr');
-}
-function hl(t,q){return(t||'').replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="hl2">$1</span>')}
-
-// ── HELPERS ──
-function showSt(id,msg,type){const el=document.getElementById(id);el.className='sm sm-'+type;el.textContent=msg;el.style.display='block'}
-function cM(){
-  document.getElementById('addM').classList.remove('open');
-  document.getElementById('sec-row').style.display='block';
-  document.getElementById('note-row').style.display='block';
-  document.getElementById('modal-save-btn').onclick=svE;
-}
-function oShare(){document.getElementById('shrM').classList.add('open')}
-function cpLink(){const u=window.location.href;navigator.clipboard?navigator.clipboard.writeText(u).then(()=>alert('✅ تم نسخ الرابط!')):prompt('انسخ الرابط:',u)}
-function tSB(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbo').classList.toggle('open')}
-function cSB(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbo').classList.remove('open')}
 window.addEventListener('load',init);
 </script>
 </body>
